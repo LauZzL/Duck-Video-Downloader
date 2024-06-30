@@ -1,8 +1,10 @@
+<div align="center" >
 <img style="display: block; margin: 0 auto; " src="https://s21.ax1x.com/2024/06/30/pkc3qSJ.png" width="200" height="200" />
+</div>
 
-<h1 style="text-align: center;">Duck Video Downloader</h1>
+<h1 align="center">Duck Video Downloader</h1>
 
-<p style="text-align: center;">基于 <a href="https://pywebview.flowrl.com/" target="_blank">PyWebview</a> 和 <a href="https://vuejs.org/" target="_blank">Vue3</a> 的视频平台多线程下载器。</p>
+<p align="center">基于 <a href="https://pywebview.flowrl.com/" target="_blank">PyWebview</a> 和 <a href="https://vuejs.org/" target="_blank">Vue3</a> 的视频平台多线程下载器。</p>
 
 ### 免责声明
 
