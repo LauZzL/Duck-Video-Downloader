@@ -4,13 +4,19 @@
 
 <h1 align="center">Duck Video Downloader</h1>
 
-<p align="center">基于 <a href="https://pywebview.flowrl.com/" target="_blank">PyWebview</a> 和 <a href="https://vuejs.org/" target="_blank">Vue3</a> 的视频平台多线程下载器。</p>
+<h4 align="center">基于 <a href="https://pywebview.flowrl.com/" target="_blank">PyWebview</a> 和 <a href="https://vuejs.org/" target="_blank">Vue3</a> 的视频平台多线程下载器。</h4>
 
-### 免责声明
+<div align="center">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/LauZzL/Duck-Video-Downloader?style=for-the-badge">
+<img alt="GitHub forks" src="https://img.shields.io/github/forks/LauZzL/Duck-Video-Downloader?style=for-the-badge">
+<img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/LauZzL/Duck-Video-Downloader/total?style=for-the-badge">
+</div>
+
+## 免责声明
 
 本项目仅供学习交流，请勿用于非法用途。
 
-### 支持平台
+## 支持平台
 
 | 平台 | 域名 | 帖子 | 主页 | 文档 |
 | --- | --- | --- | --- | --- |
@@ -19,11 +25,11 @@
 | 待添加 | - | - | - | - |
 
 
-### 快速开始
+## 快速开始
 
 [下载](https://github.com/LauZzL/Duck-Video-Downloader/releases)
 
-### 参与开发
+## 参与开发
 
 加入该项目同开发者共同维护。
 
@@ -31,7 +37,7 @@
 - 你可以通过 [Issues](https://github.com/LauZzL/Duck-Video-Downloader/issues) 提交问题或提出建议
 - 你可以通过 [Discussions](https://github.com/LauZzL/Duck-Video-Downloader/discussions) 讨论项目
 
-#### 开发环境
+### 开发环境
 
 - Node.js
 - Vue3
@@ -65,20 +71,24 @@ cd ..
 python app.py
 ```
 
-### 预览
+## 预览
 
-#### 视频解析
+### 视频解析
 
 ![视频解析](https://s21.ax1x.com/2024/06/30/pkc89YD.png)
 
-#### 主页获取
+### 主页获取
 
 ![img.png](https://s21.ax1x.com/2024/06/30/pkc8iSH.png)
 
-#### 播放
+### 播放
 
 ![播放器](https://s21.ax1x.com/2024/06/30/pkc8AOI.png)
 
-#### 下载
+### 下载
 
 ![下载展示](https://s21.ax1x.com/2024/06/30/pkc8Vmt.png)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=LauZzL/Duck-Video-Downloader&type=Date)](https://star-history.com/#LauZzL/Duck-Video-Downloader&Date)
