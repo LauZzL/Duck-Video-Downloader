@@ -1,0 +1,21 @@
+twitter:
+  media:
+    count: 20 # 获取数量过大可能会影响处理速度
+  proxy:
+    enable: true
+  cookie:
+  authorization:
+  x-csrf-token:
+
+pipixia:
+  proxy:
+    enable: false
+
+download:
+  path: 'download'
+  thread: 10 # 下载线程数
+
+
+proxy:
+  http: 'http://127.0.0.1:7890'
+  https: 'http://127.0.0.1:7890'
