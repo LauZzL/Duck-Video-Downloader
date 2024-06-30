@@ -242,12 +242,3 @@ def get_user_media(url, cursor=''):
         'legacy': legacy,
         'cursor': cursor
     }
-
-
-
-
-# print(get_video('https://x.com/tinger777/status/1805994426768224556?s=46'))
-# print(get_user_profile('Songchuanbb'))
-# print(get_user_media('1442796131507916800'))
-
-
