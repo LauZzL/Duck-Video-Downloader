@@ -69,9 +69,10 @@ const copy = (row) => {
 const enable_proxy = ref(false);
 const play = (row) => {
   const routeUrl = router.resolve({ path: "/player", query: { url: row.url } });
-  const domain = window.location.origin;
+  const href = location.href;
+  const url = href.substring(0, href.lastIndexOf("/")) + routeUrl.href.replace("#", "");
   duck.create_player({
-    url: domain + routeUrl.href
+    url: url
   });
 };
 const download = async (row) => {
