@@ -1,4 +1,3 @@
-import json
 import os
 import re
 
@@ -134,8 +133,3 @@ def fileType2Ext(fileType):
         return '.gif'
     else:
         return '.mp4'
-
-
-
-# print(extract_status_id('https://x.com/tinger777/status/1805994426768224556'))
-# print(extract_ppx_id('https://h5.pipix.com/item/7356873518186764585?app_id=1319&app=super&timestamp=1719566336&user_id=101282140452&carrier_region=&region=&language=&utm_source=weixin'))
