@@ -4,7 +4,7 @@
 
 <h1 align="center">Duck Video Downloader</h1>
 
-<h4 align="center">基于 <a href="https://pywebview.flowrl.com/" target="_blank">PyWebview</a> 和 <a href="https://vuejs.org/" target="_blank">Vue3</a> 的视频平台多线程下载器。</h4>
+<p align="center">基于 <a href="https://pywebview.flowrl.com/" target="_blank">PyWebview</a> 和 <a href="https://vuejs.org/" target="_blank">Vue3</a> 的视频平台多线程下载器。</p>
 
 <div align="center">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/LauZzL/Duck-Video-Downloader?style=for-the-badge">
