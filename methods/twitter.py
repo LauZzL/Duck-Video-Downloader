@@ -1,7 +1,15 @@
+import json
 import re
 
 import requests
 import utils
+from entity.Result import Result
+from entity.Media import Media
+from entity.MediaInfo import MediaInfo
+from entity.Author import Author
+
+
+TWITTER_BASE_URL = 'https://twitter.com/{}'
 
 __api_status_url = 'https://x.com/i/api/graphql/VwKJcAd7zqlBOitPLUrB8A/TweetDetail?variables=%7B%22focalTweetId%22%3A%22{' \
         '}%22%2C%22with_rux_injections%22%3Afalse%2C%22includePromotedContent%22%3Atrue%2C%22withCommunity%22%3Atrue' \
@@ -25,7 +33,21 @@ __api_status_url = 'https://x.com/i/api/graphql/VwKJcAd7zqlBOitPLUrB8A/TweetDeta
         '%7D&fieldToggles=%7B%22withArticleRichContentState%22%3Atrue%2C%22withArticlePlainText%22%3Afalse%2C' \
         '%22withGrokAnalyze%22%3Afalse%7D '
 
-__api_user_profile_url = 'https://x.com/i/api/graphql/-0XdHI-mrHWBQd8-oLo1aA/ProfileSpotlightsQuery?variables=%7B%22screen_name%22%3A%22{}%22%7D'
+__api_user_profile_url = ('https://x.com/i/api/graphql/xmU6X_CKVnQ5lSrCbAmJsg/UserByScreenName?variables=%7B'
+                          '%22screen_name%22%3A%22{'
+                          '}%22%2C%22withSafetyModeUserFields%22%3Atrue%7D&features=%7B'
+                          '%22hidden_profile_subscriptions_enabled%22%3Atrue%2C%22rweb_tipjar_consumption_enabled%22'
+                          '%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C'
+                          '%22verified_phone_label_enabled%22%3Afalse%2C'
+                          '%22subscriptions_verification_info_is_identity_verified_enabled%22%3Atrue%2C'
+                          '%22subscriptions_verification_info_verified_since_enabled%22%3Atrue%2C'
+                          '%22highlights_tweets_tab_ui_enabled%22%3Atrue%2C'
+                          '%22responsive_web_twitter_article_notes_tab_enabled%22%3Atrue%2C'
+                          '%22subscriptions_feature_can_gift_premium%22%3Afalse%2C'
+                          '%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C'
+                          '%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C'
+                          '%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%7D&fieldToggles=%7B'
+                          '%22withAuxiliaryUserLabels%22%3Afalse%7D')
 
 
 __api_user_media_url = 'https://x.com/i/api/graphql/MOLbHrtk8Ovu7DUNOLcXiA/UserMedia?variables=%7B%22userId%22%3A%22{' \
@@ -66,19 +88,12 @@ __enable_proxy = utils.read_yaml_key('twitter.proxy.enable')
 
 def __checkParam():
     if utils.is_empty(__cookie) or utils.is_empty(__authorization) or utils.is_empty(__x_csrf_token):
-        return {
-            'success': False,
-            'message': '请到设置填写推特对应的Cookie、Authorization、X-Csrf-Token'
-        }
+        return Result().Error('请到设置填写推特对应的Cookie、Authorization、X-Csrf-Token')
     if __enable_proxy:
         if utils.is_empty(__proxy_http) or utils.is_empty(__proxy_https):
-            return {
-                'success': False,
-                'message': '请到设置填写代理'
-            }
-    return {
-        'success': True
-    }
+            return Result().Error('请到设置填写代理')
+    return Result().Success(None, None)
+
 
 
 def __generate_requests(api, method='GET', **kwargs):
@@ -97,18 +112,70 @@ def __generate_requests(api, method='GET', **kwargs):
 
 def __check_response(response):
     if utils.is_empty(response.text):
-        return {
-            'success': False,
-            'message': '获取视频信息失败，请检查是否正确填写了推特对应的Cookie、Authorization、X-Csrf-Token'
-        }
+        return Result().Error('获取视频信息失败，请检查是否正确填写了推特对应的Cookie、Authorization、X-Csrf-Token')
     if 'data' not in response.json():
-        return {
-            'success': False,
-            'message': '获取视频信息失败，请检查是否正确填写了推特对应的Cookie、Authorization、X-Csrf-Token'
-        }
-    return {
-        'success': True
-    }
+        return Result().Error('获取视频信息失败，错误原因：{}'.format(utils.extract_key_value(response.json(), 'message')))
+    return Result().Success(None, None)
+
+
+def __extract_details(url, status_id, data):
+    instructions = data['data']['threaded_conversation_with_injections_v2']
+    content = None
+    for instruction in instructions['instructions']:
+        entries = instruction['entries']
+        if utils.is_empty(entries):
+            continue
+        for entry in entries:
+            entry_id = entry['entryId']
+            if not utils.is_empty(entry_id) and status_id in entry_id:
+                content = entry['content']
+                break
+        if not utils.is_empty(content):
+            break
+    if utils.is_empty(content):
+        return Result().Error('获取视频信息失败，错误原因：{}'.format(utils.extract_key_value(data, 'message')))
+    contentResult = content['itemContent']['tweet_results']['result']
+    # 提取到了对应的内容
+    mediaInfo = MediaInfo()
+    # 获取author信息
+    author_legacy = contentResult['core']['user_results']['result']['legacy']
+    author_name = author_legacy['name']
+    author_id = author_legacy['screen_name']
+    author_avatar = author_legacy['profile_image_url_https']
+    author_url = TWITTER_BASE_URL.format(author_id)
+    author = Author(name=author_name, url=author_url, avatar=author_avatar, user_id=author_id)
+    mediaInfo.setAuthor(author)
+    # 获取video信息
+    video_legacy = contentResult['legacy']
+    video_content = video_legacy['full_text']
+    # 获取media
+    medias = video_legacy['extended_entities']['media']
+    media_list = []
+    for media in medias:
+        vi = media['video_info']
+        media_videos = vi['variants']
+        duration = vi['duration_millis']
+        aspect_ratio = '{}:{}'.format(vi['aspect_ratio'][0], vi['aspect_ratio'][1])
+        media_cover = media['media_url_https']
+        for media_video in media_videos:
+            mediaEntry = Media()
+            media_video_url = media_video['url']
+            if 'bitrate' in media_video:
+                media_video_bitrate = media_video['bitrate']
+                mediaEntry.setBitrate(media_video_bitrate)
+            media_video_content_type = media_video['content_type']
+            mediaEntry.setUrl(media_video_url)
+            mediaEntry.setHref(url)
+            mediaEntry.setContent(video_content)
+            mediaEntry.setMediaId(status_id)
+            mediaEntry.setContentType(media_video_content_type)
+            mediaEntry.setCover(media_cover)
+            mediaEntry.setDuration(duration)
+            mediaEntry.setAspectRatio(aspect_ratio)
+            mediaEntry.setIndex(len(media_list))
+            media_list.append(mediaEntry)
+    mediaInfo.setMediaList(media_list)
+    return Result().Success(message='获取成功', data=mediaInfo)
 
 
 def get_status_details(url):
@@ -122,21 +189,14 @@ def get_status_details(url):
         return flag
     status_id = utils.extract_status_id(url)
     if utils.is_empty(status_id):
-        return {
-            'success': False,
-            'message': '请输入正确的推特链接'
-        }
-    url = __api_status_url.format(status_id)
-    response = __generate_requests(url, 'GET')
-    video_info = utils.extract_key_value(response.json(), 'video_info')
+        return Result().Error('请输入正确的推特链接')
+    req_url = __api_status_url.format(status_id)
+    response = __generate_requests(req_url, 'GET')
     flag = __check_response(response)
     if not flag['success']:
         return flag
-    return {
-        'success': True,
-        'message': '获取视频信息成功',
-        'data': video_info
-    }
+    data = response.json()
+    return __extract_details(url, status_id, data)
 
 
 def __get_user_profile(url):
@@ -151,6 +211,7 @@ def __get_user_profile(url):
     username = url.split('/')[-1]
     url = __api_user_profile_url.format(username)
     response = __generate_requests(url, 'GET')
+    data = response.json()
     flag = __check_response(response)
     if not flag['success']:
         return flag
@@ -164,6 +225,80 @@ def __get_user_profile(url):
     }
 
 
+def __extract_user_media(url, legacy, data):
+    instructions = utils.extract_key_value(data, 'instructions')
+    if utils.is_empty(instructions):
+        return Result().Error('获取失败：{}'.format(utils.extract_key_value(data, 'message')))
+    timelineAddEntries = None
+    # 获取media列表和cursor
+    for instruction in instructions:
+        if 'type' in instruction and 'TimelineAddEntries' == instruction['type']:
+            timelineAddEntries = instruction
+            break
+    # 获取cursor
+    entries = timelineAddEntries['entries']
+    cursor = entries[len(entries) - 1]['content']['value']
+    moduleItems = utils.extract_key_value(data, 'moduleItems') is None and utils.extract_key_value(data, 'items') or utils.extract_key_value(data, 'moduleItems')
+    if utils.is_empty(moduleItems) and utils.is_empty(timelineAddEntries):
+        return Result().Error('获取失败：{}'.format(utils.extract_key_value(data, 'message')))
+    elif not utils.is_empty(timelineAddEntries) is None:
+        return Result().Error('主页以获取到全部内容')
+    mediaInfo = MediaInfo()
+    # 设置游标
+    mediaInfo.setCursor(cursor)
+    # 获取作者信息
+    author_name = legacy['name']
+    author_id = legacy['screen_name']
+    author_cover = legacy['profile_image_url_https']
+    author = Author()
+    author.setName(author_name)
+    author.setUrl(TWITTER_BASE_URL.format(author_id))
+    author.setUserId(author_id)
+    author.setAvatar(author_cover)
+    mediaInfo.setAuthor(author)
+    media_list = []
+    # 遍历所有帖子
+    for module in moduleItems:
+        # 获取帖子信息
+        tweet = utils.extract_key_value(module, 'tweet')
+        if tweet is None:
+            tweet = module['item']['itemContent']['tweet_results']['result']
+        # 帖子legacy信息
+        media_legacy = tweet['legacy']
+        # 帖子ID
+        media_id = tweet['rest_id']
+        # 帖子正文
+        content = media_legacy['full_text']
+        href = TWITTER_BASE_URL.format('status/{}'.format(media_id))
+        # 帖子的所有媒体信息
+        medias = media_legacy['entities']['media']
+        for media in medias:
+            mediaEntry = Media()
+            content_type = media['type']
+            media_url = media['media_url_https']
+            mediaEntry.setCover(media_url)
+            # 当存在该值时，代表media不是一个图片媒体
+            if 'original_info' in media:
+                aspect_ratio = '{}:{}'.format(media['original_info']['width'], media['original_info']['height'])
+                mediaEntry.setAspectRatio(aspect_ratio)
+            if 'video_info' in media:
+                # 最高品质
+                media_variants = media['video_info']['variants']
+                media_url = media_variants[len(media_variants) - 1]['url']
+                media_bitrate = media_variants[len(media_variants) - 1]['bitrate']
+                if 'duration_millis' in media['video_info']:
+                    media_duration = media['video_info']['duration_millis']
+                    mediaEntry.setDuration(media_duration)
+                mediaEntry.setBitrate(media_bitrate)
+            mediaEntry.setUrl(media_url)
+            mediaEntry.setMediaId(media_id)
+            mediaEntry.setContentType(content_type)
+            mediaEntry.setContent(content)
+            mediaEntry.setHref(href)
+            mediaEntry.setIndex(len(media_list))
+            media_list.append(mediaEntry)
+    mediaInfo.setMediaList(media_list)
+    return Result().Success(message='获取成功', data=mediaInfo)
 
 def get_user_media(url, cursor=''):
     """
@@ -183,62 +318,8 @@ def get_user_media(url, cursor=''):
     url = (__api_user_media_url.format(user_id, __media_count, cursor))
     url = re.sub(r'{}|None', '', url)
     response = __generate_requests(url, 'GET')
-    instructions = utils.extract_key_value(response.json(), 'instructions')
-    if utils.is_empty(instructions):
-        return {
-            'success': False,
-            'message': '获取失败：{}'.format(utils.extract_key_value(response.json(), 'message'))
-        }
-    if len(instructions) < 2:
-        return {
-            'success': False,
-            'message': '获取结束，该用户主页媒体已全部获取完毕'
-        }
-    entries = instructions[len(instructions) - 1]['entries']
-    cursor = entries[len(entries) - 1]['content']['value']
     flag = __check_response(response)
     if not flag['success']:
         return flag
-    __extract_item = utils.extract_key_value(response.json(), 'items')
-    __module_item = utils.extract_key_value(response.json(), 'moduleItems')
-    media_items = __extract_item is None and __module_item or __extract_item
-    if utils.is_empty(media_items):
-        return {
-            'success': False,
-            'message': '获取失败：{}'.format(utils.extract_key_value(response.json(), 'message'))
-        }
-    data = []
-    for media_item in media_items:
-        item = utils.extract_key_value(media_item, 'tweet')
-        if item is None:
-            item = media_item['item']['itemContent']['tweet_results']['result']
-        # 帖子ID
-        rest_id = item['rest_id']
-        medias = []
-        # 帖子的所有媒体信息
-        media = item['legacy']['entities']['media']
-        for i in media:
-            m_type = i['type']
-            m_url = i['media_url_https']
-            # 判断类型
-            if m_type == 'video':
-                # 获取最高码率
-                m_url = i['video_info']['variants'][3]['url']
-            if m_type == 'animated_gif':
-                m_url = i['video_info']['variants'][0]['url']
-            medias.append({
-                'url': m_url,
-                'type': m_type
-            })
-        data.append({
-            'href': 'https://x.com/{}/status/{}'.format(legacy['screen_name'], rest_id),
-            'medias': medias,
-        })
-
-    return {
-        'success': True,
-        'message': '获取用户media成功',
-        'data': data,
-        'legacy': legacy,
-        'cursor': cursor
-    }
+    data = response.json()
+    return __extract_user_media(url, legacy, data)
