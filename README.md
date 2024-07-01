@@ -31,6 +31,8 @@
 
 ## 参与开发
 
+> [#156](https://github.com/xdlumia/vue3-video-play/issues/156) 由于Vue使用的播放器库`vue3-video-play`的`package.json`中的`module`路径错误，需要在`yarn install`后手动到`node_modules/vue3-video-play/package.json`中将`module`的值修改为`./dist/index.mjs`。
+
 加入该项目同开发者共同维护。
 
 - 你可以通过 [PR](https://github.com/LauZzL/Duck-Video-Downloader/pulls) 对项目代码做出贡献
@@ -70,6 +72,19 @@ yarn dev
 cd ..
 python app.py
 ```
+
+## 构建
+
+> 确保打包时ui资源被一同打包，否则无法正常显示
+
+1. 打包ui
+    ```bash
+    cd renderer
+    yarn build
+    ```
+2. 将`dist`文件夹复制到`根路径`下
+3. 修改`app.py`中`RENDERER_URL`修改为`./dist/index.html`
+4. 使用第三方python打包工具打包，例如`pyinstaller`
 
 ## 预览
 

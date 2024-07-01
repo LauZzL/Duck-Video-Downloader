@@ -1,6 +1,8 @@
 import webview
 import api
 
+# 渲染地址
+RENDERER_URL = "http://127.0.0.1:5173/"
 def expose():
     webview.windows[0].evaluate_js('window.duck = window.pywebview.api;console.info("started")')
 
@@ -8,7 +10,7 @@ def expose():
 def create_window():
     webview.create_window(
         title="Duck Video Download - https://github.com/LauZzL/duck-video-downloader",
-        url="http://127.0.0.1:5173/",
+        url=RENDERER_URL,
         width=800,
         height=600,
         min_size=(800, 600),
