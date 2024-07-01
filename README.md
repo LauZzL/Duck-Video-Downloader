@@ -49,7 +49,7 @@
 下载
 
 ```bash
-git clone https://github.com/LauZzL/Duck-Video-Downloader/Duck-Video-Downloader.git
+git clone https://github.com/LauZzL/Duck-Video-Downloader.git
 ```
 
 安装依赖
