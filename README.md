@@ -90,11 +90,11 @@ python app.py
 
 ### 视频解析
 
-![视频解析](https://s21.ax1x.com/2024/06/30/pkc89YD.png)
+![视频解析](https://s21.ax1x.com/2024/07/01/pkg99aV.png)
 
 ### 主页获取
 
-![img.png](https://s21.ax1x.com/2024/06/30/pkc8iSH.png)
+![img.png](https://s21.ax1x.com/2024/07/01/pkg9wi8.png)
 
 ### 播放
 
