@@ -18,22 +18,16 @@
         </t-form-item>
       </t-form>
     </t-space>
-    <video-info-component
-      v-if="select_model == 'details' && video_info"
-      :info="video_info"
-    />
     <medias-component
       v-if="
-        select_model == 'posts' && medias && user_profile && medias.length > 0
+        media_info
       "
-      :medias="medias"
-      :profile="user_profile"
+      :media-info="media_info"
     />
   </div>
 </template>
   
 <script setup>
-import VideoInfoComponent from "@/components/videoInfoComponent.vue";
 import MediasComponent from "@/components/mediasComponent.vue";
 import { get_func } from "@/utils/util";
 import { MessagePlugin } from "tdesign-vue-next";
@@ -44,143 +38,8 @@ const formData = ref({
 });
 const loading = ref(false);
 const select_model = ref(null);
-const video_info = ref(null);
-const user_profile = ref({
-  blocking: false,
-  blocked_by: false,
-  protected: false,
-  following: true,
-  followed_by: false,
-  name: "汌",
-  screen_name: "Songchuanbb",
-});
-const medias = ref([
-  {
-    href: "https://x.com/Songchuanbb/status/1807064251145556203",
-    medias: [
-      {
-        url: "https://pbs.twimg.com/media/GRP7WpUWIAA55Lv.jpg",
-        type: "photo",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1805844660037796112",
-    medias: [
-      {
-        url: "https://pbs.twimg.com/media/GQ-mJP6XgAEWVzb.jpg",
-        type: "photo",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1803287648779346063",
-    medias: [
-      {
-        url: "https://pbs.twimg.com/media/GQaQjPbWgAAU9Ey.jpg",
-        type: "photo",
-      },
-      {
-        url: "https://pbs.twimg.com/media/GQaQjPeWkAAIA41.jpg",
-        type: "photo",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1801563596385616252",
-    medias: [
-      {
-        url: "https://video.twimg.com/tweet_video/GQBwiMaXIAAjjn-.mp4",
-        type: "animated_gif",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1801130128669397471",
-    medias: [
-      {
-        url: "https://pbs.twimg.com/media/GP7mSMoXEAAqz9-.jpg",
-        type: "photo",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1798218625943585268",
-    medias: [
-      {
-        url: "https://pbs.twimg.com/media/GPSOTZMXUAACpLQ.jpg",
-        type: "photo",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1796045366262894946",
-    medias: [
-      {
-        url: "https://pbs.twimg.com/media/GOzVvHcXQAAAOCy.jpg",
-        type: "photo",
-      },
-      {
-        url: "https://pbs.twimg.com/media/GOzVvHdXAAAmXsK.jpg",
-        type: "photo",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1794245351404400711",
-    medias: [
-      {
-        url: "https://pbs.twimg.com/media/GOZwojWWQAA62Pp.jpg",
-        type: "photo",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1791327772414996906",
-    medias: [
-      {
-        url: "https://pbs.twimg.com/media/GNwTHBFWoAAxR3B.jpg",
-        type: "photo",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1787352889305755778",
-    medias: [
-      {
-        url: "https://pbs.twimg.com/media/GM3z-U0XEAAOLqd.jpg",
-        type: "photo",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1784101584676245995",
-    medias: [
-      {
-        url: "https://pbs.twimg.com/media/GMJm7hNXkAAJosZ.jpg",
-        type: "photo",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1782286761583837332",
-    medias: [
-      {
-        url: "https://pbs.twimg.com/media/GLv0W8AXIAAp7yH.jpg",
-        type: "photo",
-      },
-    ],
-  },
-  {
-    href: "https://x.com/Songchuanbb/status/1772854302924493014",
-    medias: [
-      {
-        url: "https://video.twimg.com/amplify_video/1772853012098076673/vid/avc1/960x720/uTjPwtAGvZXi8Kfv.mp4?tag=14",
-        type: "video",
-      },
-    ],
-  },
-]);
+const media_info = ref(null);
+const media_list = ref([]);
 const exec_func = async (obj) => {
   const url = obj.url;
   const cursor = obj.cursor;
@@ -190,18 +49,18 @@ const exec_func = async (obj) => {
     loading.value = false;
     return;
   }
-  video_info.value = null;
-  const result = await func({
+  let result = await func({
     url: url,
     cursor: obj.cursor,
   });
-  if (result.success) {
-    user_profile.value = result.legacy;
-  }
-  if (result.cursor && result.success) {
+  if (result.success && result.data.cursor) {
     // 合并
-    medias.value = medias.value.concat(result.data);
-    obj.cursor = result.cursor;
+    media_list.value = media_list.value.concat(result.data.media_list);
+    if (media_list && media_list.value.length > 0){
+      result.data.media_list = media_list.value;
+    }
+    media_info.value = result.data;
+    obj.cursor = result.data.cursor;
     await exec_func(obj);
   }
   return result;
@@ -215,18 +74,19 @@ const parser = async (e) => {
     loading.value = false;
     return;
   }
+  media_info.value = null;
   const result = await exec_func({
     url: url,
     cursor: null,
   });
   if (result.success) {
-    MessagePlugin.success("解析成功");
+    MessagePlugin.success(result.message);
     if (select_model.value == "details") {
-      video_info.value = result.data;
+      media_info.value = result.data;
     }
   } else {
     MessagePlugin.error(result.message);
-    video_info.value = null;
+    media_info.value = null;
   }
   loading.value = false;
 };
