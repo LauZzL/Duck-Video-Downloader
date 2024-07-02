@@ -13,6 +13,11 @@ path 支持模板语法，使用`${key}`格式来提取变量。
 
 点击下载时，会向task方法中发送options.media_info参数，你可以使用`jsonpath`语法来提取变量并将变量替换到path中。
 
+- 常量
+  - `suffix`: 文件后缀，会根据文件类型自动设置
+
+
+- media_info 参数
 ```json
 {
     "media": {
