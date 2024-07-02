@@ -94,7 +94,6 @@ onMounted(() => {
     if (window.pywebview && window.pywebview.api && window.duck) {
       const result = await duck.get_yaml();
       yaml.value = result.data;
-      console.log(result.data)
       clearInterval(interval);
     }
   }, 1000);
