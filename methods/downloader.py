@@ -1,9 +1,12 @@
 import os
 import time
+import re
 
 import requests
 import threading
 import utils
+import jsonpath
+
 
 
 class Downloader:
@@ -27,7 +30,7 @@ class Downloader:
             "http": utils.read_yaml_key('proxy.http'),
             "https": utils.read_yaml_key('proxy.https')
         }
-        self.download_path = utils.read_yaml_key('download.path')
+        self.download_path = None
         self.lock = threading.BoundedSemaphore(
             utils.is_empty(utils.read_yaml_key('download.thread')) and 10 or utils.read_yaml_key('download.thread')
         )
@@ -99,6 +102,42 @@ class Downloader:
             'data': task_status_list,
         }
 
+    def __extract_keys(self, string):
+        pattern = r"\$\{(.*?)\}"
+        keys = re.findall(pattern, string)
+        return keys
+
+    def __format_path(self, suffix, options):
+        """
+        格式化下载地址
+        :param suffix:
+        :param options:
+        :return:
+        """
+        # 时间戳
+        timestamp = int(time.time())
+        # download_path 支持 ${} 占位符，从 author 和 media_info 中获取，若获取到的值为空，则使用时间戳代替
+        ex_path = utils.read_yaml_key('download.path')
+        ex_path = ex_path.replace('${suffix}', suffix)
+        # 获取download_path中所有占位符的key
+        keys = self.__extract_keys(ex_path)
+        # 替换
+        for key in keys:
+            value = jsonpath.jsonpath(options['media_info'], key)
+            if value:
+                ex_path = ex_path.replace('${' + key + '}', str(value[0]))
+            else:
+                ex_path = ex_path.replace('${' + key + '}', str(timestamp))
+        # 取出ex_path中的文件名
+        file_name = os.path.basename(ex_path)
+        # 替换文件名中的特殊字符
+        file_name = re.sub(r'[\\/:*?"<>|]', '_', file_name)
+        ex_path = ex_path.replace(os.path.basename(ex_path), file_name)
+        os.path.join(ex_path)
+        return ex_path
+
+
+
     def __download(self, task_id):
         self.lock.acquire()
         task = self.task_status[task_id]
@@ -124,9 +163,7 @@ class Downloader:
                 file_type = stream.headers.get('Content-Type')
                 # 文件类型转换为文件后缀
                 suffix = utils.fileType2Ext(file_type)
-                filename = task_id
-                save_path = os.path.join(self.download_path, filename + suffix)
-                print(save_path)
+                save_path = self.__format_path(suffix, options)
                 # 创建文件夹
                 if not os.path.exists(os.path.dirname(save_path)):
                     os.makedirs(os.path.dirname(save_path))
@@ -141,7 +178,7 @@ class Downloader:
                             self.task_status[task_id]['total_size'] = total_size
                             self.task_status[task_id]['speed'] = str(round(downloaded_size / (time.time() - start_time) / 1024, 2)) + 'KB/s'
 
-                print(f"Downloaded video {filename} to {self.download_path}")
+                print(f"Downloaded video {task_id} to {save_path}")
                 self.task_status[task_id]['status'] = 2
                 self.task_status[task_id]['message'] = self.status_message[2]
             else:

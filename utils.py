@@ -118,18 +118,18 @@ def md5(s):
 
 def fileType2Ext(fileType):
     if 'mp4' in fileType:
-        return '.mp4'
+        return 'mp4'
     elif 'image' in fileType:
-        return '.jpg'
+        return 'jpg'
     elif 'audio' in fileType:
-        return '.mp3'
+        return 'mp3'
     elif 'gif' in fileType:
-        return '.gif'
+        return 'gif'
     elif 'document' in fileType:
-        return '.doc'
+        return 'doc'
     elif 'video' in fileType:
-        return '.mp4'
+        return 'mp4'
     elif 'animated_gif' in fileType:
-        return '.gif'
+        return 'gif'
     else:
-        return '.mp4'
+        return 'mp4'
