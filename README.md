@@ -29,6 +29,11 @@
 
 [下载](https://github.com/LauZzL/Duck-Video-Downloader/releases)
 
+## Yaml 配置文档
+
+[配置文档](/wiki/yaml.md)
+
+
 ## 参与开发
 
 > [#156](https://github.com/xdlumia/vue3-video-play/issues/156) 由于Vue使用的播放器库`vue3-video-play`的`package.json`中的`module`路径错误，需要在`yarn install`后手动到`node_modules/vue3-video-play/package.json`中将`module`的值修改为`./dist/index.mjs`。
