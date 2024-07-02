@@ -6,6 +6,12 @@ import yaml
 # 配置文件路径
 CONFIG_YAML_FILE = os.path.join(os.path.dirname(__file__), 'duck.yaml')
 
+def get_yaml():
+    return yaml.safe_load(open(CONFIG_YAML_FILE, 'r', encoding='utf-8'))
+
+def save_yaml(obj):
+    yaml.dump(obj, open(CONFIG_YAML_FILE, 'w', encoding='utf-8'), allow_unicode=True)
+
 def read_yaml_key(key):
     """
     读取yaml配置

@@ -105,6 +105,10 @@ python app.py
 
 ![播放器](https://s21.ax1x.com/2024/06/30/pkc8AOI.png)
 
+### 设置
+
+![设置](https://s21.ax1x.com/2024/07/02/pkgUTeJ.png)
+
 ### 下载
 
 ![下载展示](https://s21.ax1x.com/2024/06/30/pkc8Vmt.png)

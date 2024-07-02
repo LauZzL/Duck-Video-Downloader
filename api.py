@@ -1,3 +1,4 @@
+import utils
 from methods import twitter, pipxia, downloader
 import webview
 
@@ -55,6 +56,25 @@ class Api():
                 'message': str(e)
             }
 
+    def get_yaml(self):
+        return {
+            'success': True,
+            'data': utils.get_yaml()
+        }
+
+    def save_yaml(self, obj):
+        try:
+            utils.save_yaml(obj)
+            return {
+                'success': True,
+                'message': '保存成功'
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'message': str(e)
+            }
+
 
     def http_download_add_task(self, obj):
         """
@@ -98,3 +118,5 @@ class Api():
         :return:
         """
         webview.create_window("Player", obj['url'], width=800, height=600, confirm_close=False)
+
+
