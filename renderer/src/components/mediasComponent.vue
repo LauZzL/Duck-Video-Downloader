@@ -124,6 +124,10 @@ const downloadAll = () => {
       headers: {},
       options: {
         enable_proxy: enable_proxy.value,
+        media_info: {
+          media: element,
+          author: props.mediaInfo.author,
+        },
       },
     });
     if (result.success) {
@@ -144,7 +148,7 @@ const download = async (row) => {
         author: props.mediaInfo.author,
       },
     },
-  })
+  });
   if (result.success) {
     MessagePlugin.success(result.message);
   } else {
@@ -155,9 +159,10 @@ const download = async (row) => {
 const play = (row) => {
   const routeUrl = router.resolve({ path: "/player", query: { url: row.url } });
   const href = location.href;
-  const url = href.substring(0, href.lastIndexOf("/")) + routeUrl.href.replace("#", "");
+  const url =
+    href.substring(0, href.lastIndexOf("/")) + routeUrl.href.replace("#", "");
   duck.create_player({
-    url: url
+    url: url,
   });
 };
 watchEffect(() => {
