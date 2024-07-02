@@ -45,7 +45,9 @@ class Downloader:
         :return:
         """
         self.lock.acquire()
-        task_id = utils.md5(url)
+        media_id = options['media_info']['media']['media_id']
+        media_index = str(options['media_info']['media']['index'])
+        task_id = utils.md5('{}_{}'.format(media_id, media_index))
         if task_id in self.task_id_list:
             return {
                 'success': False,
