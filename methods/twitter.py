@@ -135,6 +135,9 @@ def __extract_details(url, status_id, data):
     if utils.is_empty(content):
         return Result().Error('获取视频信息失败，错误原因：{}'.format(utils.extract_key_value(data, 'message')))
     contentResult = content['itemContent']['tweet_results']['result']
+    tweet = utils.extract_key_value(contentResult, 'tweet')
+    if tweet:
+        contentResult = tweet
     # 提取到了对应的内容
     mediaInfo = MediaInfo()
     # 获取author信息
@@ -152,11 +155,25 @@ def __extract_details(url, status_id, data):
     medias = video_legacy['extended_entities']['media']
     media_list = []
     for media in medias:
-        vi = media['video_info']
+        media_cover = media['media_url_https']
+        m_type = media['type']
+        # 判断是否有video信息
+        vi = utils.extract_key_value(media, 'video_info')
+        if utils.is_empty(vi):
+            # 无video信息，返回cover即可
+            mediaEntry = Media()
+            mediaEntry.setUrl(media_cover)
+            mediaEntry.setHref(url)
+            mediaEntry.setContent(video_content)
+            mediaEntry.setMediaId(status_id)
+            mediaEntry.setContentType(m_type)
+            mediaEntry.setCover(media_cover)
+            mediaEntry.setIndex(len(media_list))
+            media_list.append(mediaEntry)
+            continue
         media_videos = vi['variants']
         duration = vi['duration_millis']
         aspect_ratio = '{}:{}'.format(vi['aspect_ratio'][0], vi['aspect_ratio'][1])
-        media_cover = media['media_url_https']
         for media_video in media_videos:
             mediaEntry = Media()
             media_video_url = media_video['url']
@@ -235,14 +252,18 @@ def __extract_user_media(url, legacy, data):
         if 'type' in instruction and 'TimelineAddEntries' == instruction['type']:
             timelineAddEntries = instruction
             break
+    if timelineAddEntries is None:
+        return Result().Error('获取失败：{}'.format(utils.extract_key_value(data, 'message')))
     # 获取cursor
     entries = timelineAddEntries['entries']
     cursor = entries[len(entries) - 1]['content']['value']
     moduleItems = utils.extract_key_value(data, 'moduleItems') is None and utils.extract_key_value(data, 'items') or utils.extract_key_value(data, 'moduleItems')
     if utils.is_empty(moduleItems) and utils.is_empty(timelineAddEntries):
-        return Result().Error('获取失败：{}'.format(utils.extract_key_value(data, 'message')))
-    elif not utils.is_empty(timelineAddEntries) is None:
-        return Result().Error('主页以获取到全部内容')
+        if utils.is_empty(cursor):
+            return Result().Error('获取失败：{}'.format(utils.extract_key_value(data, 'message')))
+        elif not utils.is_empty(cursor):
+            return Result().Error('主页以获取到全部内容')
+
     mediaInfo = MediaInfo()
     # 设置游标
     mediaInfo.setCursor(cursor)
