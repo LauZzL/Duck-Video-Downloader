@@ -78,6 +78,7 @@
 
 <script setup>
 import { ref, defineProps, onMounted, watch, watchEffect } from "vue";
+import router from "@/router";
 import { MessagePlugin } from "tdesign-vue-next";
 const stripe = ref(true);
 const bordered = ref(true);
@@ -150,6 +151,14 @@ const download = async (row) => {
     MessagePlugin.error(result.message);
   }
   row.status = result.message;
+};
+const play = (row) => {
+  const routeUrl = router.resolve({ path: "/player", query: { url: row.url } });
+  const href = location.href;
+  const url = href.substring(0, href.lastIndexOf("/")) + routeUrl.href.replace("#", "");
+  duck.create_player({
+    url: url
+  });
 };
 watchEffect(() => {
   get_media_count();
