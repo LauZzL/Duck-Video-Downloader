@@ -14,7 +14,7 @@
 import { onMounted, ref } from "vue";
 import router from "@/router";
 const src = ref("");
-const video_type = ref("video/mp4mp4");
+const video_type = ref("video/mp4");
 
 onMounted(() => {
   const url = router.currentRoute.value.query.url;
