@@ -9,6 +9,7 @@
 <div align="center">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/LauZzL/Duck-Video-Downloader?style=for-the-badge">
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/LauZzL/Duck-Video-Downloader?style=for-the-badge">
+<img alt="GitHub Release" src="https://img.shields.io/github/v/release/LauZzL/Duck-Video-Downloader?style=for-the-badge">
 <img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/LauZzL/Duck-Video-Downloader/total?style=for-the-badge">
 </div>
 
