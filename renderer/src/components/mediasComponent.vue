@@ -78,6 +78,7 @@
 
 <script setup>
 import { ref, defineProps, onMounted, watch, watchEffect } from "vue";
+import { MessagePlugin } from "tdesign-vue-next";
 const stripe = ref(true);
 const bordered = ref(true);
 const hover = ref(false);
@@ -130,6 +131,25 @@ const downloadAll = () => {
       element.status = result.message;
     }
   });
+};
+const download = async (row) => {
+  const result = await duck.http_download_add_task({
+    url: row.url,
+    headers: {},
+    options: {
+      enable_proxy: enable_proxy.value,
+      media_info: {
+        media: row,
+        author: props.mediaInfo.author,
+      },
+    },
+  })
+  if (result.success) {
+    MessagePlugin.success(result.message);
+  } else {
+    MessagePlugin.error(result.message);
+  }
+  row.status = result.message;
 };
 watchEffect(() => {
   get_media_count();
