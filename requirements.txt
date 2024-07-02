@@ -1,3 +1,4 @@
 pywebview==5.1
 Requests==2.32.3
 pyyaml==6.0.1
+jsonpath~=0.82.2
