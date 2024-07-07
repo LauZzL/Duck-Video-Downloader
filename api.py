@@ -75,6 +75,28 @@ class Api():
                 'message': str(e)
             }
 
+    def save_media_excel(self, obj):
+        """
+        保存媒体信息到excel
+        :return:
+        """
+        try:
+            path = webview.windows[0].create_file_dialog(
+                webview.SAVE_DIALOG,
+                directory='',
+                save_filename=obj['filename']
+            )
+            utils.save_csv(obj, path)
+            return {
+                'success': True,
+                'message': '保存成功'
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'message': str(e)
+            }
+
 
     def http_download_add_task(self, obj):
         """

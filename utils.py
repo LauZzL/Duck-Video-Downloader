@@ -2,6 +2,7 @@ import os
 import re
 
 import yaml
+import csv
 
 # 配置文件路径
 CONFIG_YAML_FILE = os.path.join(os.path.dirname(__file__), 'duck.yaml')
@@ -55,6 +56,14 @@ def save_yaml_key(key, value):
 
     with open(CONFIG_YAML_FILE, 'w', encoding='utf-8') as file:
         yaml.safe_dump(config_data, file, default_flow_style=False)
+
+
+def save_csv(data, file_path):
+    with open(file_path, 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, data['keys'])
+        writer.writeheader()
+        for item in data['data']:
+            writer.writerow(item)
 
 
 def extract_key_value(json_data, key_to_find):

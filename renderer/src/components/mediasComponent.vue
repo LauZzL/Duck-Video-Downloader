@@ -32,7 +32,9 @@
           <t-button theme="success" size="small" @click="downloadAll"
             >全部下载</t-button
           >
-
+          <t-button theme="success" size="small" @click="saveExcel"
+            >保存至Excel</t-button
+          >
           <t-checkbox v-model="enable_proxy">下载使用代理</t-checkbox>
         </t-space>
       </div>
@@ -96,6 +98,7 @@ const columns = ref([
   { colKey: "media_id", ellipsis: true, title: "帖子ID" },
   { colKey: "href", ellipsis: true, title: "帖子地址" },
   { colKey: "url", ellipsis: true, title: "地址" },
+  { colKey: "title", ellipsis: true, title: "标题" },
   { colKey: "content", ellipsis: true, title: "正文" },
   { colKey: "bitrate", ellipsis: true, title: "码率" },
   { colKey: "aspect_ratio", ellipsis: true, title: "分辨率" },
@@ -164,6 +167,18 @@ const play = (row) => {
   duck.create_player({
     url: url,
   });
+};
+const saveExcel = async () => {
+  const result =  await duck.save_media_excel({
+    data: media_all.value,
+    filename: props.mediaInfo.author.name + " - " + props.mediaInfo.author.user_id + '.csv',
+    keys: columns.value.map((item) => item.colKey),
+  });
+  if (result.success) {
+    MessagePlugin.success(result.message);
+  } else {
+    MessagePlugin.error(result.message);
+  }
 };
 watchEffect(() => {
   get_media_count();
