@@ -19,6 +19,13 @@
           <template #progress="{ row }">
             {{ row.total_size }} / {{ row.downloaded_size }}
           </template>
+          <template #operate="{ row }">
+            <t-space>
+              <t-button theme="primary" size="small" @click="removeTask(row)"
+                >移除</t-button
+              >
+            </t-space>
+          </template>
           </t-table>
         </div>
       </div>
@@ -43,8 +50,19 @@ const columns = ref([
   { colKey: "progress", ellipsis: true, title: "下载进度" },
   { colKey: "speed", ellipsis: true, title: "下载速度" },
   { colKey: "message", ellipsis: true, title: "状态" },
+  { colKey: "operate", ellipsis: true, title: "操作" },
 ]);
 const props = defineProps({ tasks: Object });
+const removeTask = async (row) => {
+  const result = await duck.http_download_remove_task({
+    task_id: row.task_id,
+  })
+  if (result.success) {
+    MessagePlugin.success("移除成功");
+  } else {
+    MessagePlugin.error(result.message);
+  }
+};
 </script>
   
 <style scoped>

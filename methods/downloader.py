@@ -75,6 +75,28 @@ class Downloader:
             'message': '任务已添加'
         }
 
+    def remove_task(self, task_id):
+        """
+        移除任务
+        :param task_id:
+        :return:
+        """
+        self.lock.acquire()
+        if task_id not in self.task_id_list:
+            return {
+                'success': False,
+                'message': '任务不存在'
+            }
+        self.task_status[task_id]['status'] = -1
+        self.task_status[task_id]['message'] = '任务取消'
+        self.task_id_list.remove(task_id)
+        self.lock.release()
+        return  {
+            'success': True,
+            'message': '任务已取消'
+        }
+
+
     def get_task_status(self, task_id):
         """
         获取任务状态

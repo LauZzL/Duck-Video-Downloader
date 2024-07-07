@@ -101,6 +101,16 @@ class Api():
         """
         return self.downloader.get_all_task()
 
+
+    def http_download_remove_task(self, obj):
+        """
+        移除下载任务
+        :param obj:
+        :return:
+        """
+        return self.downloader.remove_task(obj['task_id'])
+
+
     def get_readme(self):
         """
         获取README
