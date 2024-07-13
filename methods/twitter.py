@@ -119,6 +119,9 @@ def __check_response(response):
 
 
 def __extract_details(url, status_id, data):
+    if data['data'] == {}:
+        # 获取不到对应的内容，可能帖子不存在
+        return Result().Error('获取视频信息失败，错误原因：{}'.format(utils.extract_key_value(data, 'message')))
     instructions = data['data']['threaded_conversation_with_injections_v2']
     content = None
     for instruction in instructions['instructions']:
