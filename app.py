@@ -1,5 +1,8 @@
 import webview
 import api
+import urllib3
+
+urllib3.disable_warnings()
 
 # 渲染地址
 RENDERER_URL = "http://127.0.0.1:5173/"
