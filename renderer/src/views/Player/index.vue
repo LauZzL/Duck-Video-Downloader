@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <vue3VideoPlay
-      width="800px"
-      height="600px"
-      :src="src"
-      :type="video_type"
-      webFullScreen="true"
+  <div class="player-container">
+    <vue3VideoPlay 
+      :src="src" 
+      height="100%"
+      width="100%"
+      :type="video_type" 
+      class="video-player" 
     />
   </div>
 </template>
@@ -18,14 +18,16 @@ const video_type = ref("video/mp4");
 
 onMounted(() => {
   const url = router.currentRoute.value.query.url;
-  if (!url) {
-    alert("请传入视频地址");
-    return;
+  if (url) {
+    video_type.value = url.match("m3u8") ? "m3u8" : "video/mp4";
+    src.value = url;
   }
-  video_type.value = url.match("m3u8") ? "m3u8" : "video/mp4";
-  src.value = url;
 });
 </script>
 
 <style scoped>
+.player-container {
+  width: 100%;
+  height: 100%;
+}
 </style>

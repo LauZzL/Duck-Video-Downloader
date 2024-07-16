@@ -163,13 +163,12 @@ const download = async (row) => {
   row.status = result.message;
 };
 const play = (row) => {
-  const routeUrl = router.resolve({ path: "/player", query: { url: row.url } });
-  const href = location.href;
-  const url =
-    href.substring(0, href.lastIndexOf("/")) + routeUrl.href.replace("#", "");
-  duck.create_player({
-    url: url,
-  });
+  router.push(
+    {
+      path: "/player",
+      query: { url: row.url },
+    }
+  );
 };
 const copy = (row) => {
   navigator.clipboard.writeText(row.url);

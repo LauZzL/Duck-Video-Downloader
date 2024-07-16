@@ -46,6 +46,16 @@ const routes = [
                 }
             },
             {
+                path:'/player',
+                name:'player',
+                component:() => import('@/views/Player/index.vue'),
+                meta:{
+                    title:'播放器',
+                    menu: true,
+                    keepAlive: true
+                }
+            },
+            {
                 path:'/downloader',
                 name:'downloader',
                 component: () => import('@/views/Downloader/index.vue'),
@@ -68,15 +78,6 @@ const routes = [
         meta:{
             menu: false
         },
-    },
-    {
-        path:'/player',
-        name:'player',
-        component:() => import('@/views/Player/index.vue'),
-        meta:{
-            title:'播放器',
-            menu: false
-        }
     },
     {
         path:'/',
