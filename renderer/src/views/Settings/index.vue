@@ -6,7 +6,7 @@
       :expand-on-row-click="!onlyIcon"
     >
       <t-collapse-panel value="twitter">
-        <template #expandIcon><LogoGithubIcon /></template>
+        <template #expandIcon><LogoTwitterIcon /></template>
         <template #header>Twitter</template>
         <div class="setting-item">
           <div class="item-c">
@@ -84,7 +84,7 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { LogoGithubIcon, ShrimpIcon, Download1Icon, InternetIcon } from "tdesign-icons-vue-next";
+import { LogoGithubIcon, ShrimpIcon, Download1Icon, InternetIcon, LogoTwitterIcon } from "tdesign-icons-vue-next";
 import { MessagePlugin } from "tdesign-vue-next";
 const direction = ref("left");
 const onlyIcon = ref(false);
