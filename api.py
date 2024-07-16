@@ -29,7 +29,6 @@ class Api():
         :return:
         """
         try:
-            print(obj)
             return twitter.get_user_media(
                 obj['url'],
                 obj['cursor']
