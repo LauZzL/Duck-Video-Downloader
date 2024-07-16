@@ -45,6 +45,8 @@
           row-key="index"
           :data="media_all"
           :columns="columns"
+          :scroll="{ type: 'virtual', rowHeight: 48, bufferSize: 10 }"
+          :height="height"
           :stripe="stripe"
           :bordered="bordered"
           :hover="hover"
@@ -92,6 +94,7 @@ const visible = ref(true);
 const media_all = ref([]);
 const post_ids = ref([]);
 const enable_proxy = ref(false);
+const height = ref(300);
 const columns = ref([
   { colKey: "index", ellipsis: true, title: "Index" },
   { colKey: "cover", ellipsis: true, title: "封面" },
@@ -168,6 +171,10 @@ const play = (row) => {
     url: url,
   });
 };
+const copy = (row) => {
+  navigator.clipboard.writeText(row.url);
+  MessagePlugin.success("复制成功");
+};
 const saveExcel = async () => {
   const result =  await duck.save_media_excel({
     data: media_all.value,
@@ -180,6 +187,17 @@ const saveExcel = async () => {
     MessagePlugin.error(result.message);
   }
 };
+
+onresize = () => {
+  height.value = getWindowHeight();
+  console.log(height.value)
+};
+
+
+const getWindowHeight = () => {
+  return window.innerHeight - 100;
+};
+
 watchEffect(() => {
   get_media_count();
 });
