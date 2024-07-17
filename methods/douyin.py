@@ -56,22 +56,38 @@ def __extract_data(url, video_id, data):
     """
     media_list = []
     for item in item_list:
-        media = Media()
-        video = item['video']
-        href = 'https://www.douyin.com/video/{}'.format(item['aweme_id'])
-        url = video['play_addr']['url_list'][0]
-        cover = video['cover']['url_list'][0]
-        aspect_ratio = '{}.{}'.format(video['height'], video['width'])
         content = item['desc']
         media_id = item['aweme_id']
-        media.setUrl(url.replace('playwm', 'play'))
-        media.setHref(href)
-        media.setContent(content)
-        media.setCover(cover)
-        media.setAspectRatio(aspect_ratio)
-        media.setMediaId(media_id)
-        media.setIndex(len(media_list))
-        media_list.append(media)
+        href = 'https://www.douyin.com/video/{}'.format(item['aweme_id'])
+        if 'video' in item:
+            media = Media()
+            video = item['video']
+            url = video['play_addr']['url_list'][0]
+            cover = video['cover']['url_list'][0]
+            aspect_ratio = '{}.{}'.format(video['height'], video['width'])
+            media.setUrl(url.replace('playwm', 'play'))
+            media.setHref(href)
+            media.setContent(content)
+            media.setCover(cover)
+            media.setAspectRatio(aspect_ratio)
+            media.setMediaId(media_id)
+            media.setIndex(len(media_list))
+            media_list.append(media)
+        if 'images' in item:
+            images = item['images']
+            for image in images:
+                media = Media()
+                url = image['url_list'][len(image['url_list']) - 1]
+                cover = url
+                aspect_ratio = '{}.{}'.format(image['height'], image['width'])
+                media.setUrl(url)
+                media.setHref(href)
+                media.setContent(content)
+                media.setCover(cover)
+                media.setAspectRatio(aspect_ratio)
+                media.setMediaId(media_id)
+                media.setIndex(len(media_list))
+                media_list.append(media)
     mediaInfo.setMediaList(media_list)
     return Result().Success(mediaInfo, '视频信息获取成功')
 
@@ -96,6 +112,5 @@ def __extract_video_id(url, proxy, retry=0):
             return video_id
     else:
         return __extract_video_id(__get_redirect_url(url, proxy), proxy, retry=retry + 1)
-
 
 
