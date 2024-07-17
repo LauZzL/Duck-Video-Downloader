@@ -12,10 +12,10 @@
         </t-space>
         <t-space style="margin-top: 10px">
           <div>
-            用户昵称：<t-tag>{{ mediaInfo.author.name }}</t-tag>
+            用户昵称：<t-tag @click="copy_data(mediaInfo.author.name, '复制用户昵称成功')">{{ mediaInfo.author.name }}</t-tag>
           </div>
           <div>
-            用户名：<t-tag max-width="150">{{ mediaInfo.author.user_id }}</t-tag>
+            用户名：<t-tag max-width="150" @click="copy_data(mediaInfo.author.user_id, '复制用户ID成功')">{{ mediaInfo.author.user_id }}</t-tag>
           </div>
           <div>
             帖子数量：<t-tag theme="success">{{ post_ids.length }}</t-tag>
@@ -31,6 +31,9 @@
         <t-space>
           <t-button theme="success" size="small" @click="downloadAll"
             >全部下载</t-button
+          >
+          <t-button theme="success" size="small" v-if="mediaInfo.author.url" @click="copy_data(mediaInfo.author.url, '复制用户主页地址成功')"
+            >复制主页地址</t-button
           >
           <t-button theme="success" size="small" @click="saveExcel"
             >保存至Excel</t-button
@@ -173,6 +176,10 @@ const play = (row) => {
 const copy = (row) => {
   navigator.clipboard.writeText(row.url);
   MessagePlugin.success("复制成功");
+};
+const copy_data = (data, message) => {
+  navigator.clipboard.writeText(data);
+  MessagePlugin.success(message);
 };
 const saveExcel = async () => {
   const result =  await duck.save_media_excel({
