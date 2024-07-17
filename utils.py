@@ -148,3 +148,14 @@ def fileType2Ext(fileType):
         return 'gif'
     else:
         return 'mp4'
+
+
+def extract_url(str_data):
+    """
+    从字符串中提取URL
+    :param str_data:
+    :return:
+    """
+    return re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', str_data)
+
+
