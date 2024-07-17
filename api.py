@@ -55,6 +55,24 @@ class Api():
                 'message': str(e)
             }
 
+    def pipixia_get_user_media(self, obj):
+        """
+        获取皮皮虾主页视频、图集
+        :param obj:
+        :return:
+        """
+        try:
+            return pipxia.get_user_media(
+                obj['url'],
+                obj['cursor']
+            )
+        except Exception as e:
+            return {
+                'success': False,
+                'message': str(e)
+            }
+
+
 
     def douyin_get_video(self, obj):
         """

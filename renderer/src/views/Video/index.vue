@@ -62,6 +62,10 @@ const exec_func = async (obj) => {
     media_info.value = result.data;
     obj.cursor = result.data.cursor;
     await exec_func(obj);
+  }else if(result.success && !result.data.cursor && media_list.value.length == 0 && result.data.media_list.length > 0){
+    media_list.value = result.data.media_list;
+    media_info.value = result.data;
+    return result;
   }
   return result;
 };
@@ -75,6 +79,7 @@ const parser = async (e) => {
     return;
   }
   media_info.value = null;
+  media_list.value = [];
   const result = await exec_func({
     url: url,
     cursor: null,

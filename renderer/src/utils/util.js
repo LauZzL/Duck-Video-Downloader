@@ -24,11 +24,14 @@ export function get_func(url, key){
                 }
             ]
         },{
-            regex: /.*pipix.com.*/g,
+            regex: /.*pipix.com.*|.*bds:\/\/user\/profile\?user_id=.*/g,
             funcs: [
                 {
                     key: "details",
                     func: duck.pipixia_get_video
+                },{
+                    key: "posts",
+                    func: duck.pipixia_get_user_media
                 }
             ]
         },{

@@ -22,7 +22,7 @@
 | 平台  | 域名                               | 帖子 | 主页 | 文档 |
 |-----|----------------------------------| --- | --- | --- |
 | 推特  | `x.com` `twitter.com`            | ✅ | ✅ | [Twitter](/wiki/twitter.md) |
-| 皮皮虾 | `h5.pipix.com`                   | ✅ | ❌ | - |
+| 皮皮虾 | `h5.pipix.com`                   | ✅ | ✅ | - |
 | 抖音  | `v.douyin.com` `www.douyin.com` `www.iesdouyin.com` | ✅ | ❌ | - |
 | 待添加 | -                                | - | - | - |
 
@@ -102,6 +102,7 @@ python app.py
 ### 主页获取
 
 ![img.png](https://s21.ax1x.com/2024/07/01/pkg9wi8.png)
+![img.png](https://s21.ax1x.com/2024/07/17/pkoV59O.png)
 
 ### 播放
 
