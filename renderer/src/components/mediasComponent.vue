@@ -15,7 +15,7 @@
             用户昵称：<t-tag>{{ mediaInfo.author.name }}</t-tag>
           </div>
           <div>
-            用户名：<t-tag>{{ mediaInfo.author.user_id }}</t-tag>
+            用户名：<t-tag max-width="150">{{ mediaInfo.author.user_id }}</t-tag>
           </div>
           <div>
             帖子数量：<t-tag theme="success">{{ post_ids.length }}</t-tag>
