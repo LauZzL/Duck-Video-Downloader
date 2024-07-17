@@ -31,6 +31,14 @@ export function get_func(url, key){
                     func: duck.pipixia_get_video
                 }
             ]
+        },{
+            regex: /.*v.douyin.com.*|.*www.douyin.com.*|.*www.iesdouyin.com.*/g,
+            funcs: [
+                {
+                    key: "details",
+                    func: duck.douyin_get_video
+                }
+            ]
         }
     ]
     for(var i = 0; i < regexfunc.length; i++){
