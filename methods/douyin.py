@@ -75,6 +75,8 @@ def __extract_data(url, video_id, data):
             media_list.append(media)
         if 'images' in item:
             images = item['images']
+            if images is None or len(images) == 0:
+                continue
             for image in images:
                 media = Media()
                 url = image['url_list'][len(image['url_list']) - 1]
