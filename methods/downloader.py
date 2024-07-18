@@ -176,11 +176,14 @@ class Downloader:
         options = task['options']
         headers = task['headers']
         proxy = options['enable_proxy'] and self.proxy or None
+        cookie = None
+        if 'cookie' in options:
+            cookie = options['cookie']
         start_time = time.time()
         self.task_status[task_id]['status'] = 1
         self.task_status[task_id]['message'] = self.status_message[1]
         try:
-            stream = requests.get(url, headers=headers, proxies=proxy, stream=True)
+            stream = requests.get(url, headers=headers, proxies=proxy, stream=True, cookies=cookie)
             print('task {} start download!'.format(task_id))
             if stream.status_code == 200:
                 # 获取文件类型
