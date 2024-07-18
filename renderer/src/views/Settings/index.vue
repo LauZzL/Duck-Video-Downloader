@@ -65,6 +65,22 @@
           </div>
         </div>
       </t-collapse-panel>
+      <t-collapse-panel value="tiktok">
+        <template #expandIcon><Music2Icon /></template>
+        <template #header>TikTok</template>
+        <div class="setting-item">
+          <div class="item-c">
+            <span>代理：</span><t-switch
+              v-model="yaml.tiktok.proxy.enable"
+              size="large"
+            >
+              <template #label="slotProps">{{
+                slotProps.value ? "开" : "关"
+              }}</template>
+            </t-switch>
+          </div>
+        </div>
+      </t-collapse-panel>
       <t-collapse-panel value="download">
         <template #expandIcon><Download1Icon /></template>
         <template #header>下载</template>
