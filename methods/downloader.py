@@ -34,6 +34,7 @@ class Downloader:
         self.lock = threading.BoundedSemaphore(
             utils.is_empty(utils.read_yaml_key('download.thread')) and 10 or utils.read_yaml_key('download.thread')
         )
+        self.skip_exist_files = utils.read_yaml_key('download.skipExistFiles') and True or False
         pass
 
     def add_task(self, url, headers, options):
@@ -191,6 +192,13 @@ class Downloader:
                 # 文件类型转换为文件后缀
                 suffix = utils.fileType2Ext(file_type)
                 save_path = self.__format_path(suffix, options)
+                # 判断是否需要跳过已存在的文件
+                if self.skip_exist_files and os.path.exists(save_path):
+                    self.task_status[task_id]['status'] = 2
+                    self.task_status[task_id]['message'] = '文件已存在'
+                    self.thread_list.remove(thread)
+                    self.lock.release()
+                    return
                 # 创建文件夹
                 if not os.path.exists(os.path.dirname(save_path)):
                     os.makedirs(os.path.dirname(save_path))

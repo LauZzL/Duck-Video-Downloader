@@ -12,10 +12,17 @@
             <t-option key="posts" label="主页" value="posts" />
           </t-select>
           <t-input v-model="formData.url"></t-input>
-          <t-button @click="parser" theme="primary" :loading="loading"
-            >解析</t-button
-          >
         </t-form-item>
+        <div>
+          <t-space>
+            <t-button @click="parser" theme="primary" :loading="loading"
+            >开始解析</t-button
+          >
+          <t-button @click="stop_flag = true; stop_parser_btn = true" :disabled="stop_parser_btn" theme="danger"
+            >停止解析</t-button
+          >
+          </t-space>
+        </div>
       </t-form>
     </t-space>
     <medias-component
@@ -32,6 +39,8 @@ import MediasComponent from "@/components/mediasComponent.vue";
 import { get_func } from "@/utils/util";
 import { MessagePlugin } from "tdesign-vue-next";
 import { ref } from "vue";
+const stop_parser_btn = ref(true);
+const stop_flag = ref(false);
 const formData = ref({
   labelAlign: "top",
   url: "",
@@ -41,6 +50,7 @@ const select_model = ref(null);
 const media_info = ref(null);
 const media_list = ref([]);
 const exec_func = async (obj) => {
+  let result = null;
   const url = obj.url;
   const cursor = obj.cursor;
   const func = get_func(url, select_model.value);
@@ -49,7 +59,11 @@ const exec_func = async (obj) => {
     loading.value = false;
     return;
   }
-  let result = await func({
+  if (stop_flag.value) {
+    MessagePlugin.error("解析已停止");
+    return result;
+  }
+  result = await func({
     url: url,
     cursor: obj.cursor,
   });
@@ -78,12 +92,19 @@ const parser = async (e) => {
     loading.value = false;
     return;
   }
+  stop_parser_btn.value = false;
   media_info.value = null;
   media_list.value = [];
   const result = await exec_func({
     url: url,
     cursor: null,
   });
+  stop_parser_btn.value = true;
+  if (!result) {
+    MessagePlugin.error("解析失败");
+    loading.value = false;
+    return;
+  }
   if (result.success) {
     MessagePlugin.success(result.message);
     if (select_model.value == "details") {

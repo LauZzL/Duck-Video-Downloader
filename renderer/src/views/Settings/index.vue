@@ -84,6 +84,16 @@
       <t-collapse-panel value="download">
         <template #expandIcon><Download1Icon /></template>
         <template #header>下载</template>
+        <div class="item-c">
+            <span>跳过已下载的文件：</span><t-switch
+              v-model="yaml.download.skipExistFiles"
+              size="large"
+            >
+              <template #label="slotProps">{{
+                slotProps.value ? "开" : "关"
+              }}</template>
+            </t-switch>
+          </div>
         <div class="setting-item">
           <div class="item-c">
             <t-input label="路径:" v-model="yaml.download.path" />

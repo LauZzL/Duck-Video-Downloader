@@ -25,10 +25,10 @@
             >
           </div>
           <div>
-            帖子数量：<t-tag theme="success">{{ post_ids.length }}</t-tag>
+            帖子数量：<t-tag theme="default">{{ post_ids.length }}</t-tag>
           </div>
           <div>
-            媒体数量：<t-tag theme="primary">{{ media_all.length }}</t-tag>
+            媒体数量：<t-tag theme="default">{{ media_all.length }}</t-tag>
           </div>
         </t-space>
       </div>
