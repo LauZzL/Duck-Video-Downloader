@@ -19,12 +19,13 @@
 
 ## 支持平台
 
-| 平台  | 域名                               | 帖子 | 主页 | 文档                          |
-|-----|----------------------------------| --- | --- |-----------------------------|
-| 推特  | `x.com` `twitter.com`            | ✅ | ✅ | [Twitter](/wiki/twitter.md) |
-| 皮皮虾 | `h5.pipix.com`                   | ✅ | ✅ | [皮皮虾](/wiki/ppx.md)         |
-| 抖音  | `v.douyin.com` `www.douyin.com` `www.iesdouyin.com` | ✅ | ❌ | -                           |
-| 待添加 | -                                | - | - | -                           |
+| 平台      | 域名                               | 帖子 | 主页 | 文档                          |
+|---------|----------------------------------| --- | --- |-----------------------------|
+| 推特      | `x.com` `twitter.com`            | ✅ | ✅ | [Twitter](/wiki/twitter.md) |
+| 皮皮虾     | `h5.pipix.com`                   | ✅ | ✅ | [皮皮虾](/wiki/ppx.md)         |
+| 抖音      | `v.douyin.com` `www.douyin.com` `www.iesdouyin.com` | ✅ | ❌ | -                           |
+| Tik Tok | `vm.tiktok.com` `www.tiktok.com` | ✅ | ❌ | -                           |
+| 待添加     | -                                | - | - | -                           |
 
 
 ## 快速开始
