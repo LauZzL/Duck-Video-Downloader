@@ -12,7 +12,7 @@ def expose():
 
 def create_window():
     webview.create_window(
-        title="Duck Video Download - https://github.com/LauZzL/duck-video-downloader",
+        title="Duck Video Downloader - https://github.com/LauZzL/duck-video-downloader",
         url=RENDERER_URL,
         width=800,
         height=600,
