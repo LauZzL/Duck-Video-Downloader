@@ -1,5 +1,5 @@
 import utils
-from methods import twitter, pipxia, douyin, downloader
+from methods import twitter, pipxia, douyin, tiktok, downloader
 import webview
 
 class Api():
@@ -82,6 +82,23 @@ class Api():
         """
         try:
             return douyin.get_video(
+                obj['url']
+            )
+        except Exception as e:
+            return {
+                'success': False,
+                'message': str(e)
+            }
+
+
+    def tiktok_get_video(self, obj):
+        """
+        获取皮皮虾视频
+        :param obj:
+        :return:
+        """
+        try:
+            return tiktok.get_video(
                 obj['url']
             )
         except Exception as e:

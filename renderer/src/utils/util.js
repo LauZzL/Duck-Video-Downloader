@@ -42,6 +42,14 @@ export function get_func(url, key){
                     func: duck.douyin_get_video
                 }
             ]
+        },{
+            regex: /.*vm.tiktok.com.*|.*www.tiktok.com.*/g,
+            funcs: [
+                {
+                    key: "details",
+                    func: duck.tiktok_get_video
+                }
+            ]
         }
     ]
     for(var i = 0; i < regexfunc.length; i++){
