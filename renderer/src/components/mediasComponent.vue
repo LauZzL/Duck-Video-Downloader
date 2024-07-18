@@ -72,7 +72,12 @@
           lazy-load
         >
           <template #cover="{ row }">
-            <t-image :src="row.cover" width="100px" height="100px" />
+            <t-image
+              :src="row.cover"
+              :overlay-content="renderMask"
+              overlay-trigger="hover"
+              @click="preview_image(row.cover)"
+            />
           </template>
 
           <template #operate="{ row }">
@@ -91,13 +96,42 @@
         </t-table>
       </div>
     </t-card>
+    <t-image-viewer
+      v-model:visible="visibleImageViewer"
+      :images="[view_image]"
+    >
+    </t-image-viewer>
   </div>
 </template>
 
-<script setup>
+<script setup lang="jsx">
 import { ref, defineProps, onMounted, watch, watchEffect } from "vue";
 import router from "@/router";
 import { MessagePlugin } from "tdesign-vue-next";
+import { BrowseIcon } from 'tdesign-icons-vue-next';
+
+const renderMask = () => (
+  <div
+    style={{
+      background: 'rgba(0,0,0,.4)',
+      color: '#fff',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    预览
+  </div>
+);
+const visibleImageViewer = ref(false);
+const view_image = ref(null);
+const preview_image = (imgurl) => {
+  console.log(imgurl)
+  view_image.value = imgurl;
+  visibleImageViewer.value = true;
+}
+
 const stripe = ref(true);
 const bordered = ref(true);
 const hover = ref(false);
