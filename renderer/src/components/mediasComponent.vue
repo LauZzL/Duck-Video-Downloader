@@ -249,7 +249,6 @@ const preview_image = (imgurl) => {
 
 onresize = () => {
   height.value = getWindowHeight();
-  console.log(height.value);
 };
 
 const getWindowHeight = () => {
