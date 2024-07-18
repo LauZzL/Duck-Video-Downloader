@@ -64,7 +64,7 @@ def __extract_data(url, video_id, data):
             video = item['video']
             url = video['play_addr']['url_list'][0]
             cover = video['cover']['url_list'][0]
-            aspect_ratio = '{}.{}'.format(video['height'], video['width'])
+            aspect_ratio = '{}:{}'.format(video['height'], video['width'])
             media.setUrl(url.replace('playwm', 'play'))
             media.setHref(href)
             media.setContent(content)
