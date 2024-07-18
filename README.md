@@ -7,10 +7,13 @@
 <p align="center">基于 <a href="https://pywebview.flowrl.com/" target="_blank">PyWebview</a> 和 <a href="https://vuejs.org/" target="_blank">Vue3</a> 的视频平台多线程下载器。</p>
 
 <div align="center">
+
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/LauZzL/Duck-Video-Downloader?style=for-the-badge">
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/LauZzL/Duck-Video-Downloader?style=for-the-badge">
 <img alt="GitHub Release" src="https://img.shields.io/github/v/release/LauZzL/Duck-Video-Downloader?style=for-the-badge">
 <img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/LauZzL/Duck-Video-Downloader/total?style=for-the-badge">
+<br>
+<img alt="Page Views" src="https://badges.toozhao.com/badges/01J31XHNY86NKHJGDKXV2ZHRXM/orange.svg">
 </div>
 
 ## 免责声明
