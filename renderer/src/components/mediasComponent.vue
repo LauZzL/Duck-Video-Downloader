@@ -12,10 +12,17 @@
         </t-space>
         <t-space style="margin-top: 10px">
           <div>
-            用户昵称：<t-tag @click="copy_data(mediaInfo.author.name, '复制用户昵称成功')">{{ mediaInfo.author.name }}</t-tag>
+            用户昵称：<t-tag
+              @click="copy_data(mediaInfo.author.name, '复制用户昵称成功')"
+              >{{ mediaInfo.author.name }}</t-tag
+            >
           </div>
           <div>
-            用户名：<t-tag max-width="150" @click="copy_data(mediaInfo.author.user_id, '复制用户ID成功')">{{ mediaInfo.author.user_id }}</t-tag>
+            用户名：<t-tag
+              max-width="150"
+              @click="copy_data(mediaInfo.author.user_id, '复制用户ID成功')"
+              >{{ mediaInfo.author.user_id }}</t-tag
+            >
           </div>
           <div>
             帖子数量：<t-tag theme="success">{{ post_ids.length }}</t-tag>
@@ -32,7 +39,11 @@
           <t-button theme="success" size="small" @click="downloadAll"
             >全部下载</t-button
           >
-          <t-button theme="success" size="small" v-if="mediaInfo.author.url" @click="copy_data(mediaInfo.author.url, '复制用户主页地址成功')"
+          <t-button
+            theme="success"
+            size="small"
+            v-if="mediaInfo.author.url"
+            @click="copy_data(mediaInfo.author.url, '复制用户主页地址成功')"
             >复制主页地址</t-button
           >
           <t-button theme="success" size="small" @click="saveExcel"
@@ -128,16 +139,18 @@ const get_media_count = () => {
 };
 const downloadAll = () => {
   media_all.value.forEach(async (element) => {
+    let options = {
+      enable_proxy: enable_proxy.value,
+      media_info: {
+        media: element,
+        author: props.mediaInfo.author,
+      },
+    };
+    options = { ...element.options, ...options };
     const result = await duck.http_download_add_task({
       url: element.url,
       headers: {},
-      options: {
-        enable_proxy: enable_proxy.value,
-        media_info: {
-          media: element,
-          author: props.mediaInfo.author,
-        },
-      },
+      options: options,
     });
     if (result.success) {
       element.status = "已添加下载任务";
@@ -147,16 +160,18 @@ const downloadAll = () => {
   });
 };
 const download = async (row) => {
+  let options = {
+    enable_proxy: enable_proxy.value,
+    media_info: {
+      media: row,
+      author: props.mediaInfo.author,
+    },
+  };
+  options = { ...row.options, ...options };
   const result = await duck.http_download_add_task({
     url: row.url,
     headers: {},
-    options: {
-      enable_proxy: enable_proxy.value,
-      media_info: {
-        media: row,
-        author: props.mediaInfo.author,
-      },
-    },
+    options: options,
   });
   if (result.success) {
     MessagePlugin.success(result.message);
@@ -166,12 +181,10 @@ const download = async (row) => {
   row.status = result.message;
 };
 const play = (row) => {
-  router.push(
-    {
-      path: "/player",
-      query: { url: row.url },
-    }
-  );
+  router.push({
+    path: "/player",
+    query: { url: row.url },
+  });
 };
 const copy = (row) => {
   navigator.clipboard.writeText(row.url);
@@ -182,9 +195,13 @@ const copy_data = (data, message) => {
   MessagePlugin.success(message);
 };
 const saveExcel = async () => {
-  const result =  await duck.save_media_excel({
+  const result = await duck.save_media_excel({
     data: media_all.value,
-    filename: props.mediaInfo.author.name + " - " + props.mediaInfo.author.user_id + '.csv',
+    filename:
+      props.mediaInfo.author.name +
+      " - " +
+      props.mediaInfo.author.user_id +
+      ".csv",
     keys: columns.value.map((item) => item.colKey),
   });
   if (result.success) {
@@ -196,9 +213,8 @@ const saveExcel = async () => {
 
 onresize = () => {
   height.value = getWindowHeight();
-  console.log(height.value)
+  console.log(height.value);
 };
-
 
 const getWindowHeight = () => {
   return window.innerHeight - 100;
