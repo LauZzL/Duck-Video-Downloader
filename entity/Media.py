@@ -2,7 +2,7 @@ import json
 
 
 class Media:
-    def __init__(self, url=None, href=None, title=None, content=None, media_id=None, content_type=None, bitrate=None, cover=None, duration=None, aspect_ratio=None, index=0):
+    def __init__(self, url=None, href=None, title=None, content=None, media_id=None, content_type=None, bitrate=None, cover=None, duration=None, aspect_ratio=None, options=None,index=0):
         # 视频地址
         self.url = url
         # href
@@ -23,6 +23,8 @@ class Media:
         self.duration = duration
         # 分辨率
         self.aspect_ratio = aspect_ratio
+        # options
+        self.options = options
         # index
         self.index = index
 
@@ -55,6 +57,9 @@ class Media:
 
     def getAspectRatio(self):
         return self.aspect_ratio if self.aspect_ratio else ''
+
+    def getOptions(self):
+        return self.options if self.options else ''
 
     def getIndex(self):
         return self.index if self.index else 0
@@ -89,11 +94,14 @@ class Media:
     def setAspectRatio(self, aspect_ratio):
         self.aspect_ratio = aspect_ratio
 
+    def setOptions(self, options):
+        self.options = options
+
     def setIndex(self, index):
         self.index = index
 
     def toString(self):
-        return 'Video{url=' + self.getUrl() + ', href=' + self.getHref() + ', title=' + self.getTitle() + ', content=' + self.getContent() + ', media_id=' + self.getMediaId() + ', content_type=' + self.getContentType() + ', bitrate=' + self.getBitrate() + ', cover=' + self.getCover() + ', duration=' + self.getDuration() + ', aspect_ratio=' + self.getAspectRatio() + ', index=' + self.getIndex() + '}'
+        return 'Video{url=' + self.getUrl() + ', href=' + self.getHref() + ', title=' + self.getTitle() + ', content=' + self.getContent() + ', media_id=' + self.getMediaId() + ', content_type=' + self.getContentType() + ', bitrate=' + self.getBitrate() + ', cover=' + self.getCover() + ', duration=' + self.getDuration() + ', aspect_ratio=' + self.getAspectRatio() + ', options=' + self.getOptions() + ', index=' + self.getIndex() + '}'
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4, ensure_ascii=False)
