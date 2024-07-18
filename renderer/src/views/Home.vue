@@ -1,6 +1,7 @@
 <template>
-  <t-layout style="width: 100%; height: 100%;">
-    <aside-component></aside-component>
+  <t-loading :loading="loading" text="加载中..." attach="#home-layout" fullscreen />
+  <t-layout id="home-layout" style="width: 100%; height: 100%;">
+    <aside-component />
     <t-content class="content">
       <router-view v-slot="{ Component }">
         <keep-alive>
@@ -15,10 +16,11 @@
 
 <script setup>
 import asideComponent from '@/components/asideComponent.vue'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
+const loading = ref(true);
 onMounted(() => {
     const interval = setInterval(() => {
-      if (window.pywebview && window.pywebview.api) window.duck = window.pywebview.api;console.info('duck is loaded!');clearInterval(interval);
+      if (window.pywebview && window.pywebview.api) window.duck = window.pywebview.api;console.info('duck is loaded!');loading.value=false;clearInterval(interval);
     }, 1000)
 })
 </script>
