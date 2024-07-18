@@ -108,7 +108,6 @@
 import { ref, defineProps, onMounted, watch, watchEffect } from "vue";
 import router from "@/router";
 import { MessagePlugin } from "tdesign-vue-next";
-import { BrowseIcon } from 'tdesign-icons-vue-next';
 
 const stripe = ref(true);
 const bordered = ref(true);
