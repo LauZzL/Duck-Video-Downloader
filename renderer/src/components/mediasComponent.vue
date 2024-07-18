@@ -110,28 +110,6 @@ import router from "@/router";
 import { MessagePlugin } from "tdesign-vue-next";
 import { BrowseIcon } from 'tdesign-icons-vue-next';
 
-const renderMask = () => (
-  <div
-    style={{
-      background: 'rgba(0,0,0,.4)',
-      color: '#fff',
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}
-  >
-    预览
-  </div>
-);
-const visibleImageViewer = ref(false);
-const view_image = ref(null);
-const preview_image = (imgurl) => {
-  console.log(imgurl)
-  view_image.value = imgurl;
-  visibleImageViewer.value = true;
-}
-
 const stripe = ref(true);
 const bordered = ref(true);
 const hover = ref(false);
@@ -158,6 +136,8 @@ const columns = ref([
   { colKey: "status", title: "状态" },
   { colKey: "operate", title: "操作", fixed: "right", width: 200 },
 ]);
+const visibleImageViewer = ref(false);
+const view_image = ref(null);
 const props = defineProps({
   mediaInfo: Object,
 });
@@ -217,7 +197,10 @@ const download = async (row) => {
 const play = (row) => {
   router.push({
     path: "/player",
-    query: { url: row.url },
+    query: { 
+      url: row.url,
+      cover: row.cover
+    },
   });
 };
 const copy = (row) => {
@@ -244,6 +227,25 @@ const saveExcel = async () => {
     MessagePlugin.error(result.message);
   }
 };
+
+const renderMask = () => (
+  <div
+    style={{
+      background: 'rgba(0,0,0,.4)',
+      color: '#fff',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    预览
+  </div>
+);
+const preview_image = (imgurl) => {
+  view_image.value = imgurl;
+  visibleImageViewer.value = true;
+}
 
 onresize = () => {
   height.value = getWindowHeight();
