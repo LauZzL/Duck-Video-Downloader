@@ -15,7 +15,7 @@ __proxy_http = utils.read_yaml_key('proxy.http')
 __proxy_https = utils.read_yaml_key('proxy.https')
 
 
-def __extract_data(url, pid ,response):
+def __extract_data(href, pid ,response):
     data = response.json()
     if data['ret'] != 1:
         return Result().Error(data['msg'])
@@ -61,7 +61,7 @@ def __extract_data(url, pid ,response):
         media.setMediaId(media_id)
         media.setAspectRatio(aspect_ratio)
         media.setContent(content)
-        media.setHref(url)
+        media.setHref(href)
         media.setIndex(len(media_list))
         media.setCover(img_url)
         media_list.append(media)
