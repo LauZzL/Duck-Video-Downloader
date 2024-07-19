@@ -23,6 +23,11 @@ zuiyou:
   proxy:
     enable: false
 
+
+pipigaoxiao:
+  proxy:
+    enable: false
+
 download:
   path: 'download/${$.author.name}/${$.media.media_id}/${$.media.title}_${$.media.index}.${suffix}'
   thread: 10 # 下载线程数

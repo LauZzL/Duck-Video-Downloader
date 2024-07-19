@@ -1,7 +1,7 @@
 <template>
   <div class="media-container">
     <t-card :bordered="false">
-      <div class="info">
+      <div v-if="mediaInfo.author" class="info">
         <t-space style="margin-top: 10px">
           <div style="display: flex; height: 32px; align-items: center">
             用户头像：<t-image
@@ -42,7 +42,7 @@
           <t-button
             theme="success"
             size="small"
-            v-if="mediaInfo.author.url"
+            v-if="mediaInfo.author && mediaInfo.author.url"
             @click="copy_data(mediaInfo.author.url, '复制用户主页地址成功')"
             >复制主页地址</t-button
           >

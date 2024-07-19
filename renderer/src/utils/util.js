@@ -58,6 +58,14 @@ export function get_func(url, key){
                     func: duck.zuiyou_get_video
                 }
             ]
+        },{
+            regex: /.*h5.ippzone.com.*/g,
+            funcs: [
+                {
+                    key: "details",
+                    func: duck.pipigaoxiao_get_video
+                }
+            ]
         }
     ]
     for(var i = 0; i < regexfunc.length; i++){

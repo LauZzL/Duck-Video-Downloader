@@ -97,6 +97,22 @@
           </div>
         </div>
       </t-collapse-panel>
+      <t-collapse-panel value="pipigapxiao">
+        <template #expandIcon><SettingIcon /></template>
+        <template #header>皮皮搞笑</template>
+        <div class="setting-item">
+          <div class="item-c">
+            <span>代理：</span><t-switch
+              v-model="yaml.pipigapxiao.proxy.enable"
+              size="large"
+            >
+              <template #label="slotProps">{{
+                slotProps.value ? "开" : "关"
+              }}</template>
+            </t-switch>
+          </div>
+        </div>
+      </t-collapse-panel>
       <t-collapse-panel value="download">
         <template #expandIcon><Download1Icon /></template>
         <template #header>下载</template>

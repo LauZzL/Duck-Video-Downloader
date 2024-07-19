@@ -1,5 +1,5 @@
 import utils
-from methods import twitter, pipxia, douyin, tiktok, zuiyou
+from methods import twitter, pipxia, douyin, tiktok, zuiyou, pipigaoxiao
 import downloader
 import webview
 
@@ -117,6 +117,23 @@ class Api():
         """
         try:
             return zuiyou.get_video(
+                obj['url']
+            )
+        except Exception as e:
+            return {
+                'success': False,
+                'message': str(e)
+            }
+
+
+    def pipigaoxiao_get_video(self, obj):
+        """
+        获取皮皮搞笑视频
+        :param obj:
+        :return:
+        """
+        try:
+            return pipigaoxiao.get_video(
                 obj['url']
             )
         except Exception as e:
