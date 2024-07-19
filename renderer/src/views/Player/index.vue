@@ -5,7 +5,7 @@
       height="100%"
       width="100%"
       :type="video_type"
-      :poster="cover"
+      :poster="cover_img"
       class="video-player" 
     />
   </div>
@@ -15,6 +15,7 @@
 import { onMounted, ref } from "vue";
 import router from "@/router";
 const src = ref("");
+const cover_img = ref("");
 const video_type = ref("video/mp4");
 
 onMounted(() => {
@@ -23,6 +24,9 @@ onMounted(() => {
   if (url) {
     video_type.value = url.match("m3u8") ? "m3u8" : "video/mp4";
     src.value = url;
+  }
+  if (cover) {
+    cover_img.value = cover;
   }
 });
 </script>
