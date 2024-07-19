@@ -28,6 +28,15 @@ pipigaoxiao:
   proxy:
     enable: false
 
+
+weishi:
+  proxy:
+    enable: false
+
+kuaishou:
+  proxy:
+    enable: false
+
 download:
   path: 'download/${$.author.name}/${$.media.media_id}/${$.media.title}_${$.media.index}.${suffix}'
   thread: 10 # 下载线程数

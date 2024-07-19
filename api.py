@@ -1,5 +1,5 @@
 import utils
-from methods import twitter, pipxia, douyin, tiktok, zuiyou, pipigaoxiao
+from methods import twitter, pipxia, douyin, tiktok, zuiyou, pipigaoxiao, weishi, kuaishou
 import downloader
 import webview
 
@@ -141,6 +141,39 @@ class Api():
                 'success': False,
                 'message': str(e)
             }
+
+    def weishi_get_video(self, obj):
+        """
+        获取微视视频
+        :param obj:
+        :return:
+        """
+        try:
+            return weishi.get_video(
+                obj['url']
+            )
+        except Exception as e:
+            return {
+                'success': False,
+                'message': str(e)
+            }
+
+    def kuaishou_get_video(self, obj):
+        """
+        获取快手视频
+        :param obj:
+        :return:
+        """
+        try:
+            return kuaishou.get_video(
+                obj['url']
+            )
+        except Exception as e:
+            return {
+                'success': False,
+                'message': str(e)
+            }
+
 
     def get_yaml(self):
         return {

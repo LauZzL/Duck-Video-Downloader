@@ -66,6 +66,22 @@ export function get_func(url, key){
                     func: duck.pipigaoxiao_get_video
                 }
             ]
+        },{
+            regex: /.*v.weishi.qq.com.*|.*video.weishi.qq.com.*/g,
+            funcs: [
+                {
+                    key: "details",
+                    func: duck.weishi_get_video
+                }
+            ]
+        },{
+            regex: /.*www.kuaishou.com.*/g,
+            funcs: [
+                {
+                    key: "details",
+                    func: duck.kuaishou_get_video
+                }
+            ]
         }
     ]
     for(var i = 0; i < regexfunc.length; i++){

@@ -113,6 +113,38 @@
           </div>
         </div>
       </t-collapse-panel>
+      <t-collapse-panel value="weishi">
+        <template #expandIcon><SettingIcon /></template>
+        <template #header>微视</template>
+        <div class="setting-item">
+          <div class="item-c">
+            <span>代理：</span><t-switch
+              v-model="yaml.weishi.proxy.enable"
+              size="large"
+            >
+              <template #label="slotProps">{{
+                slotProps.value ? "开" : "关"
+              }}</template>
+            </t-switch>
+          </div>
+        </div>
+      </t-collapse-panel>
+      <t-collapse-panel value="kuaishou">
+        <template #expandIcon><SettingIcon /></template>
+        <template #header>快手</template>
+        <div class="setting-item">
+          <div class="item-c">
+            <span>代理：</span><t-switch
+              v-model="yaml.kuaishou.proxy.enable"
+              size="large"
+            >
+              <template #label="slotProps">{{
+                slotProps.value ? "开" : "关"
+              }}</template>
+            </t-switch>
+          </div>
+        </div>
+      </t-collapse-panel>
       <t-collapse-panel value="download">
         <template #expandIcon><Download1Icon /></template>
         <template #header>下载</template>
