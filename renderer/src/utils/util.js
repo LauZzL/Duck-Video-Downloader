@@ -50,6 +50,14 @@ export function get_func(url, key){
                     func: duck.tiktok_get_video
                 }
             ]
+        },{
+            regex: /.*share.xiaochuankeji.cn.*/g,
+            funcs: [
+                {
+                    key: "details",
+                    func: duck.zuiyou_get_video
+                }
+            ]
         }
     ]
     for(var i = 0; i < regexfunc.length; i++){

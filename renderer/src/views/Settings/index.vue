@@ -81,6 +81,22 @@
           </div>
         </div>
       </t-collapse-panel>
+      <t-collapse-panel value="zuiyou">
+        <template #expandIcon><SettingIcon /></template>
+        <template #header>最右</template>
+        <div class="setting-item">
+          <div class="item-c">
+            <span>代理：</span><t-switch
+              v-model="yaml.zuiyou.proxy.enable"
+              size="large"
+            >
+              <template #label="slotProps">{{
+                slotProps.value ? "开" : "关"
+              }}</template>
+            </t-switch>
+          </div>
+        </div>
+      </t-collapse-panel>
       <t-collapse-panel value="download">
         <template #expandIcon><Download1Icon /></template>
         <template #header>下载</template>
@@ -126,7 +142,7 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { LogoGithubIcon, ShrimpIcon, Download1Icon, InternetIcon, LogoTwitterIcon, Music2Icon } from "tdesign-icons-vue-next";
+import { LogoGithubIcon, ShrimpIcon, Download1Icon, InternetIcon, LogoTwitterIcon, Music2Icon, SettingIcon } from "tdesign-icons-vue-next";
 import { MessagePlugin } from "tdesign-vue-next";
 const direction = ref("left");
 const onlyIcon = ref(false);
