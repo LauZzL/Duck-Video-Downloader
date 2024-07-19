@@ -51,7 +51,7 @@ const routes = [
                 component:() => import('@/views/Player/index.vue'),
                 meta:{
                     title:'播放器',
-                    menu: true,
+                    menu: false,
                     keepAlive: true
                 }
             },
