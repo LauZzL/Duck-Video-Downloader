@@ -158,4 +158,24 @@ def extract_url(str_data):
     """
     return re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', str_data)
 
+def get_latest_release():
+    import requests
+    try:
+        response = requests.get('https://api.github.com/repos/LauZzL/Duck-Video-Downloader/releases/latest')
+        if response.status_code == 200:
+            return {
+                'success': True,
+                'data': response.json()
+            }
+        else:
+            return {
+                'success': False,
+                'message': '获取最新版本信息失败'
+            }
+    except Exception as e:
+        return {
+            'success': False,
+            'message': str(e)
+        }
+
 

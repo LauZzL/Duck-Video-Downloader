@@ -127,6 +127,11 @@ python app.py
 
 ![下载展示](https://s21.ax1x.com/2024/06/30/pkc8Vmt.png)
 
+### 更新检测
+
+![更新检测](https://s21.ax1x.com/2024/07/19/pkTM8ts.png)
+
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=LauZzL/Duck-Video-Downloader&type=Date)](https://star-history.com/#LauZzL/Duck-Video-Downloader&Date)

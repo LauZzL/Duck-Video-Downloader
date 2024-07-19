@@ -10,6 +10,11 @@ export function is_number(str){
     return !isNaN(str);
 }
 
+
+export function get_latest_release(){
+    return duck.get_latest_release();
+}
+
 export function get_func(url, key){
     const regexfunc = [
         {

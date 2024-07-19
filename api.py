@@ -9,6 +9,13 @@ class Api():
         self.downloader = downloader.Downloader()
 
 
+    def get_latest_release(self):
+        """
+        检查更新
+        :return:
+        """
+        return utils.get_latest_release()
+
     def twitter_get_status_details(self, obj):
         """
         获取推特视频详情

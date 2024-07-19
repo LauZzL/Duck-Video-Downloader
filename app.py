@@ -6,13 +6,16 @@ urllib3.disable_warnings()
 
 # 渲染地址
 RENDERER_URL = "http://127.0.0.1:5173/"
+
+APP_VERSION = "v1.0.8"
+
 def expose():
-    webview.windows[0].evaluate_js('window.duck = window.pywebview.api;console.info("started")')
+    webview.windows[0].evaluate_js('window.duck = window.pywebview.api;window.duck.APP_VERSION="{}";console.info("started")'.format(APP_VERSION))
 
 
 def create_window():
     webview.create_window(
-        title="Duck Video Downloader - https://github.com/LauZzL/duck-video-downloader",
+        title="Duck Video Downloader {}".format(APP_VERSION),
         url=RENDERER_URL,
         width=800,
         height=600,
