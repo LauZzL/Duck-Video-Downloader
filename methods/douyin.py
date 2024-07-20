@@ -112,6 +112,10 @@ def __extract_video_id(url, proxy, retry=0):
         video_id = url.split('video/')[1].split('/')[0]
         if utils.is_number(video_id):
             return video_id
+    elif 'modal_id=' in url:
+        video_id = url.split('modal_id=')[1].split('&')[0]
+        if utils.is_number(video_id):
+            return video_id
     else:
         return __extract_video_id(__get_redirect_url(url, proxy), proxy, retry=retry + 1)
 

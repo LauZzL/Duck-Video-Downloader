@@ -24,6 +24,7 @@ import { MdPreview } from 'md-editor-v3'
 import asideComponent from '@/components/asideComponent.vue'
 import { onMounted, ref } from 'vue'
 import { get_latest_release } from '../utils/util';
+import { MessagePlugin } from 'tdesign-vue-next';
 const loading = ref(true);
 const loading_text = ref('加载duck中...');
 const update_body = ref('')
