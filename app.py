@@ -7,7 +7,7 @@ urllib3.disable_warnings()
 # 渲染地址
 RENDERER_URL = "http://127.0.0.1:5173/"
 
-APP_VERSION = "v1.0.8"
+APP_VERSION = "v1.0.9"
 
 def expose():
     webview.windows[0].evaluate_js('window.duck = window.pywebview.api;window.duck.APP_VERSION="{}";console.info("started")'.format(APP_VERSION))
