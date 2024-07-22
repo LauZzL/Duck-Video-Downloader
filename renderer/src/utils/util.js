@@ -15,6 +15,12 @@ export function get_latest_release(){
     return duck.get_latest_release();
 }
 
+export function extract_urls(text) {
+    var urlRegex = /(\b(https?):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gim;
+    var urls = text.match(urlRegex);
+    return urls || [];
+}
+
 export function get_func(url, key){
     const regexfunc = [
         {

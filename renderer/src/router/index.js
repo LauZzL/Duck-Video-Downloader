@@ -22,25 +22,18 @@ const routes = [
                 path:'/video',
                 name:'video',
                 component: () => import('@/views/Video/index.vue'),
-                // children: [
-                //     {
-                //         path:'/video/twitter',
-                //         name:'video-twitter',
-                //         component: () => import('@/views/Video/Twitter/index.vue'),
-                //         meta:{
-                //             title:'推特',
-                //         }
-                //     },{
-                //         path:'/video/pipixia',
-                //         name:'video-pipixia',
-                //         component: () => import('@/views/Video/Pipixia/index.vue'),
-                //         meta:{
-                //             title:'皮皮虾',
-                //         }
-                //     }
-                // ],
                 meta:{
                     title:'视频',
+                    menu: true,
+                    keepAlive: true
+                }
+            },
+            {
+                path:'/batch-video',
+                name:'batch-video',
+                component: () => import('@/views/BatchVideo/index.vue'),
+                meta:{
+                    title:'批量',
                     menu: true,
                     keepAlive: true
                 }

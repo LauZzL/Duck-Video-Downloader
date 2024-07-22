@@ -110,6 +110,10 @@ python app.py
 ### 预览
 ![封面预览](https://f.pz.al/pzal/2024/07/18/a16161a5f4c74.png)
 
+### 批量视频解析
+
+![批量视频解析](https://s21.ax1x.com/2024/07/22/pk7tROA.png)
+
 ### 主页获取
 
 ![img.png](https://s21.ax1x.com/2024/07/01/pkg9wi8.png)
