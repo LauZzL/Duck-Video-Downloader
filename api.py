@@ -223,6 +223,47 @@ class Api():
                 'message': str(e)
             }
 
+    def read_file(self):
+        try:
+            path = webview.windows[0].create_file_dialog(
+                webview.OPEN_DIALOG,
+                directory='',
+                allow_multiple=False
+            )
+            if path is None:
+                return {
+                    'success': False,
+                    'message': '未选择文件'
+                }
+            return {
+                'success': True,
+                'data': utils.read_file(path[0])
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'message': str(e)
+            }
+
+    def write_file(self, obj):
+        try:
+            path = webview.windows[0].create_file_dialog(
+                webview.SAVE_DIALOG,
+                directory='',
+                save_filename=obj['filename']
+            )
+            utils.write_file(path, obj['data'])
+            return {
+                'success': True,
+                'message': '保存成功'
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'message': str(e)
+            }
+
+
 
     def http_download_add_task(self, obj):
         """

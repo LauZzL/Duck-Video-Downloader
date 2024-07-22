@@ -66,6 +66,23 @@ def save_csv(data, file_path):
             writer.writerow(item)
 
 
+def read_file(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return file.read()
+    except FileNotFoundError:
+        return None
+
+
+def write_file(file_path, content):
+    try:
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(content)
+        return True
+    except Exception as e:
+        return False
+
+
 def extract_key_value(json_data, key_to_find):
     """
     从json数据中提取指定键的值
@@ -177,5 +194,4 @@ def get_latest_release():
             'success': False,
             'message': str(e)
         }
-
 
