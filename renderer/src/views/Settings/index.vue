@@ -97,13 +97,13 @@
           </div>
         </div>
       </t-collapse-panel>
-      <t-collapse-panel value="pipigapxiao">
+      <t-collapse-panel value="pipigaoxiao">
         <template #expandIcon><SettingIcon /></template>
         <template #header>皮皮搞笑</template>
         <div class="setting-item">
           <div class="item-c">
             <span>代理：</span><t-switch
-              v-model="yaml.pipigapxiao.proxy.enable"
+              v-model="yaml.pipigaoxiao.proxy.enable"
               size="large"
             >
               <template #label="slotProps">{{
