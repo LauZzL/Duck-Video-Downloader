@@ -195,3 +195,18 @@ def get_latest_release():
             'message': str(e)
         }
 
+
+
+def get_arg_value(args, key, default=None):
+    """
+    获取命令行参数的值
+    :param args:
+    :param key:
+    :param default:
+    :return:
+    """
+    for arg in args:
+        if arg.startswith(key + '='):
+            return arg.split('=')[1]
+    return default
+

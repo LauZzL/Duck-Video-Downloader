@@ -37,6 +37,8 @@
 
 ## 快速开始
 
+> 你可以通过 `--dev` 参数开启调试模式，此时会自动打开开发者控制台。
+
 [下载](https://github.com/LauZzL/Duck-Video-Downloader/releases)
 
 ## Yaml 配置文档
@@ -85,7 +87,7 @@ cd renderer
 yarn dev
 # 运行python
 cd ..
-python app.py
+python app.py --dev
 ```
 
 ## 构建
@@ -99,6 +101,7 @@ python app.py
     ```
 2. 将`dist`文件夹复制到`根路径`下
 3. 修改`app.py`中`RENDERER_URL`修改为`./dist/index.html`
+   > 在`v1.1.1`版本后构建时无需修改`RENDERER_URL`参数
 4. 使用第三方python打包工具打包，例如`pyinstaller`
 
 ## 预览

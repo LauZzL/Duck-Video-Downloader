@@ -177,6 +177,7 @@ class Downloader:
         options = task['options']
         headers = task['headers']
         proxy = options['enable_proxy'] and self.proxy or None
+        save_cover = options['save_cover']
         cookie = None
         if 'cookie' in options:
             cookie = options['cookie']
@@ -212,7 +213,23 @@ class Downloader:
                             self.task_status[task_id]['downloaded_size'] = downloaded_size
                             self.task_status[task_id]['total_size'] = total_size
                             self.task_status[task_id]['speed'] = str(round(downloaded_size / (time.time() - start_time) / 1024, 2)) + 'KB/s'
-
+                if save_cover:
+                    cover_url = options['media_info']['media']['cover']
+                    try:
+                        c_stream = requests.get(url=cover_url, headers=headers, proxies=proxy, cookies=cookie, stream=True)
+                        if c_stream.status_code == 200:
+                            # 获取文件类型
+                            file_type = c_stream.headers.get('Content-Type')
+                            # 文件类型转换为文件后缀
+                            c_suffix = utils.fileType2Ext(file_type)
+                            cover_path = save_path.replace(os.path.basename(save_path), os.path.basename(save_path).replace(suffix, '') + '_cover.' + c_suffix)
+                            with open(cover_path, "wb") as f:
+                               for chunk in c_stream.iter_content(chunk_size=1024):
+                                   if chunk:
+                                       f.write(chunk)
+                        print('task {} download cover success!'.format(task_id))
+                    except Exception as e:
+                        print('task {} download cover failed, exception str: {}!'.format(task_id, str(e)))
                 print(f"Downloaded video {task_id} to {save_path}")
                 self.task_status[task_id]['status'] = 2
                 self.task_status[task_id]['message'] = self.status_message[2]

@@ -50,6 +50,7 @@
             >保存至Excel</t-button
           >
           <t-checkbox v-model="enable_proxy">下载使用代理</t-checkbox>
+          <t-checkbox v-model="save_cover">保存封面</t-checkbox>
         </t-space>
       </div>
     </t-card>
@@ -119,6 +120,7 @@ const visible = ref(true);
 const media_all = ref([]);
 const post_ids = ref([]);
 const enable_proxy = ref(false);
+const save_cover = ref(true);
 const height = ref(300);
 const columns = ref([
   { colKey: "index", ellipsis: true, title: "Index" },
@@ -150,16 +152,21 @@ const get_media_count = () => {
     post_ids.value.push(item.media_id);
   });
 };
-const downloadAll = () => {
-  media_all.value.forEach(async (element) => {
-    let options = {
+const _options = (e) => {
+  let options = {
       enable_proxy: enable_proxy.value,
+      save_cover: save_cover.value,
       media_info: {
-        media: element,
+        media: e,
         author: props.mediaInfo.author,
       },
     };
-    options = { ...element.options, ...options };
+    options = { ...e.options, ...options };
+    return options;
+};
+const downloadAll = () => {
+  media_all.value.forEach(async (element) => {
+    const options = _options(element)
     const result = await duck.http_download_add_task({
       url: element.url,
       headers: {},
@@ -173,14 +180,7 @@ const downloadAll = () => {
   });
 };
 const download = async (row) => {
-  let options = {
-    enable_proxy: enable_proxy.value,
-    media_info: {
-      media: row,
-      author: props.mediaInfo.author,
-    },
-  };
-  options = { ...row.options, ...options };
+  const options = _options(row);
   const result = await duck.http_download_add_task({
     url: row.url,
     headers: {},
