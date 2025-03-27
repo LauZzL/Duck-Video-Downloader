@@ -8,10 +8,7 @@ from entity.Media import Media
 from entity.MediaInfo import MediaInfo
 from entity.Author import Author
 
-__api_detail = 'https://ib-hl.snssdk.com/bds/cell/detail/?version_code=4.2.7&app_name=super&device_id=1988391945639406' \
-        '&channel=App%20Store&resolution=1170*2532&aid=1319&last_channel=App%20Store&last_update_version_code=42691' \
-        '&recommend_disable=0&update_version_code=42780&ac=WIFI&os_version=15.5&device_platform=iphone&iid' \
-        '=805274026772804&device_type=iPhone%2012&cell_id={}&cell_type=1&api_version=1 '
+__api_detail = 'https://api.pipix.com/bds/cell/cell_comment/?offset=0&cell_type=1&api_version=1&cell_id={}&ac=wifi&channel=huawei_1319_64&aid=1319&app_name=super'
 
 __api_publish_list = 'https://api.pipix.com/bds/user/publish_list/?user_id={}&aid=1319&app_name=super&cursor={}'
 
@@ -52,7 +49,7 @@ def __extract_media(data, item, item_type, index=0):
     duration = utils.extract_key_value(data, 'duration')
     media = Media()
     media.setUrl(url)
-    media.setTitle(item['share']['title'])
+    media.setTitle(content)
     media.setContent(content)
     media.setContentType('video/mp4')
     media.setCover(cover_url)
@@ -65,7 +62,8 @@ def __extract_media(data, item, item_type, index=0):
 def __extract_detail(url, cell_id, data):
     if data['status_code'] != 0:
         return Result().Error('获取视频失败,原因:{}'.format(data['message']))
-    item = data['data']['data']['item']
+    # data['cell_comments'][0]['comment_info'].item
+    item = data['data']['cell_comments'][0]['comment_info']['item']
     """
     item_type
     1. 图片
