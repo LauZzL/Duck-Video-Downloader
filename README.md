@@ -18,6 +18,10 @@
 <img alt="Page Views" src="https://badges.toozhao.com/badges/01J31XHNY86NKHJGDKXV2ZHRXM/orange.svg">
 </div>
 
+## 项目迁移
+
+已迁移至仓库 [LauZzL/no-watermark](https://github.com/LauZzL/no-watermark)，由 Java 17 + Spring Boot3 构建。
+
 ## 小程序在线体验
 
 <div align="center" >
